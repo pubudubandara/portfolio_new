@@ -46,7 +46,7 @@ export const Projects = () => {
   ];
 
   return (
-    <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
+    <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-bg-muted/30 to-cyan-400/10">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
           Featured Projects
@@ -55,7 +55,7 @@ export const Projects = () => {
           {projects.map((project, index) => (
             <Card
               key={index}
-              className="shadow-lg hover:shadow-xl transition-shadow"
+              className="shadow-blue-500/50 hover:scale-103 transition-all duration-300 ease-in-out"
             >
               <CardHeader>
                 <CardTitle>{project.title}</CardTitle>

@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, Menu, X } from "lucide-react";
-import { useTheme } from "next-themes";
+import { Menu, X } from "lucide-react";
 
 export const Navigation = ({
   activeSection,
@@ -16,7 +15,6 @@ export const Navigation = ({
   isMenuOpen: boolean;
   setIsMenuOpen: (isOpen: boolean) => void;
 }) => {
-  const { theme, setTheme } = useTheme();
   const navItems = [
     { id: "hero", label: "Home" },
     { id: "about", label: "About" },
@@ -33,7 +31,7 @@ export const Navigation = ({
           <div className="font-bold text-xl">Pubudu Bandara</div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 space-x-8">
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -49,24 +47,11 @@ export const Navigation = ({
             ))}
           </div>
 
-          <div className="flex items-center space-x-4">
+          {/* Mobile menu button - placed on the right */}
+          <div className="md:hidden">
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            >
-              {theme === "dark" ? (
-                <Sun className="h-5 w-5" />
-              ) : (
-                <Moon className="h-5 w-5" />
-              )}
-            </Button>
-
-            {/* Mobile menu button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? (

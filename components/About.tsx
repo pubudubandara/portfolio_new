@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 
 export const About = () => {
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
+    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-bg-muted/30 to-cyan-400/10">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
           About Me
@@ -33,7 +33,7 @@ export const About = () => {
           {/* Right Card Section with Glowing Bottom-Right Element */}
           <div className="relative">
             {/* Main Card */}
-            <Card className="shadow-lg relative z-10">
+            <Card className="relative z-10 shadow-blue-500/50 hover:scale-105 transition-transform">
               <CardHeader>
                 <CardTitle>Education & Interests</CardTitle>
               </CardHeader>
@@ -56,8 +56,8 @@ export const About = () => {
               </CardContent>
             </Card>
 
-            {/* Glowing Corner Card */}
-            <Card className="absolute top-5 left-5 w-0 h-0 rounded-xl z-0 shadow-[0px_0px_100px_30px_rgba(0,255,255,0.6)] bg-cyan-400/60 border-none -rotate-45" />
+            {/* Glowing Corner Effect */}
+            <div className="absolute top-0 left-0 w-16 h-16 rounded-xl z-0 bg-cyan-400/20 shadow-[0px_0px_60px_20px_rgba(0,255,255,0.4)]" />
           </div>
         </div>
       </div>
