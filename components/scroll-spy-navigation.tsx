@@ -49,7 +49,7 @@ export default function ScrollSpyNavigation({ sections }: ScrollSpyNavigationPro
             key={section.id}
             onClick={() => scrollToSection(section.id)}
             className="group relative flex items-center"
-            title={section.label}
+            // title={section.label}
           >
             <div
               className={`h-8 rounded-full transition-all duration-300 ${
@@ -65,9 +65,9 @@ export default function ScrollSpyNavigation({ sections }: ScrollSpyNavigationPro
             )} */}
 
             {/* Tooltip on hover */}
-            <div className="absolute left-6 px-2 py-1 bg-primary text-primary-foreground text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+            {/* <div className="absolute left-6 px-2 py-1 bg-primary text-primary-foreground text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
               {section.label}
-            </div>
+            </div> */}
           </button>
         ))}
       </div>
