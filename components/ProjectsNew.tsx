@@ -1,71 +1,68 @@
 'use client'
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Github, ExternalLink } from "lucide-react";
+} from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Github, ExternalLink } from 'lucide-react'
 
 interface Project {
-  _id: string;
-  title: string;
-  description: string;
-  tech: string[];
-  github: string;
-  demo: string;
+  _id: string
+  title: string
+  description: string
+  tech: string[]
+  github: string
+  demo: string
+  featured: boolean
 }
 
 export const Projects = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchProjects();
-  }, []);
+    fetchProjects()
+  }, [])
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch('/api/projects');
-      const data = await response.json();
+      const response = await fetch('/api/projects')
+      const data = await response.json()
 
-      if (data.success && data.data) {
-        setProjects(data.data);
+      if (data.success && Array.isArray(data.data)) {
+        setProjects(data.data)
       } else {
-        setProjects([]); // Explicitly set empty array if no data
+        setProjects([])
       }
     } catch (error) {
-      console.error('Failed to fetch projects:', error);
-      setProjects([]); // Set empty array on error
+      console.error('Failed to fetch projects:', error)
+      setProjects([])
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   if (loading) {
     return (
       <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-bg-muted/30 to-cyan-400/10">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
-            Featured Projects
-          </h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">Featured Projects</h2>
           <div className="text-center">Loading projects...</div>
         </div>
       </section>
-    );
+    )
   }
 
   return (
     <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-bg-muted/30 to-cyan-400/10">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
-          Featured Projects
-        </h2>
+        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">Featured Projects</h2>
         {projects.length === 0 ? (
           <p className="text-center text-muted-foreground">No projects available at the moment.</p>
         ) : (
@@ -74,10 +71,9 @@ export const Projects = () => {
               <Card key={project._id} className="shadow-blue-500/50 hover:scale-105 transition-all duration-300 ease-in-out">
                 <CardHeader>
                   <CardTitle>{project.title}</CardTitle>
-                  <CardDescription className="whitespace-pre-line">
-  {project.description}
-</CardDescription>
-
+                  <CardDescription>
+                    <pre className="whitespace-pre-wrap">{project.description}</pre>
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-wrap gap-2 mb-4">
@@ -108,5 +104,5 @@ export const Projects = () => {
         )}
       </div>
     </section>
-  );
-};
+  )
+}

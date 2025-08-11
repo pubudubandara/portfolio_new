@@ -21,7 +21,7 @@ export const Hero = () => {
 
               {/* Image - made slightly larger to overlap rings */}
               <Image
-                src="/placeholder.svg?height=200&width=200"
+                src="/img.jpeg?height=200&width=200"
                 alt="Pubudu Bandara"
                 width={200}
                 height={200}

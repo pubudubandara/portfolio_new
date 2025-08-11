@@ -81,7 +81,7 @@ export const Contact = () => {
             <div className="space-y-4">
               <div className="flex items-center">
                 <Mail className="mr-3 h-5 w-5 text-primary" />
-                <span>pubudu@example.com</span>
+                <a href="mailto:pubudumb@gmail.com" className="text-primary underline">pubudumb@gmail.com</a>
               </div>
               <div className="flex space-x-4 mt-6">
                 <Button size="icon" variant="outline" asChild>
