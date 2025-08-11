@@ -46,11 +46,18 @@ export const About = () => {
                   <p className="text-muted-foreground">University of Moratuwa</p>
                 </div>
                 <div>
+                  <h4 className="font-semibold mb-2">School</h4>
+                  <p className="text-muted-foreground">
+                    St. Sylvester's College Kandy
+                  </p>
+                  
+                </div>
+                <div>
                   <h4 className="font-semibold mb-2">Key Interests</h4>
                   <div className="flex flex-wrap gap-2">
-                    <Badge variant="secondary">Web Development</Badge>
-                    <Badge variant="secondary">Artificial Intelligence</Badge>
-                    <Badge variant="secondary">MERN Stack</Badge>
+                    <Badge variant="secondary">Electronics</Badge>
+                    <Badge variant="secondary">UI design</Badge>
+                    <Badge variant="secondary">Travelling</Badge>
                   </div>
                 </div>
               </CardContent>

@@ -5,14 +5,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Code, Database, Wrench, Users } from "lucide-react";
+import { Code, Database, Wrench, Box, Cpu } from "lucide-react";
 
 export const Skills = () => {
   const skills = {
-    frontend: ["React", "Next.js", "Tailwind CSS", "HTML", "CSS"],
-    backend: ["Node.js", "Express", "MongoDB"],
-    tools: ["Git", "VS Code", "Postman"],
-    soft: ["Teamwork", "Communication", "Problem Solving"],
+    "Programming Languages": ["C","Java", "JavaScript", "TypeScript"],
+    "Web Development": ["HTML", "CSS", "Next.js", "React", "Node.js", "Express.js", "Tailwind CSS"],
+    "Database": ["MongoDB", "MySQL"],
+    "Other": ["Git", "Photoshop", "Figma", "Docker"]
   };
 
   return (
@@ -26,12 +26,30 @@ export const Skills = () => {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Code className="mr-2 h-5 w-5 text-primary" />
-                Frontend
+                Programming Languages
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
-                {skills.frontend.map((skill) => (
+                {skills["Programming Languages"].map((skill) => (
+                  <Badge key={skill} variant="default">
+                    {skill}
+                  </Badge>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-blue-500/50 hover:scale-105 transition-all duration-300 ease-in-out">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Cpu className="mr-2 h-5 w-5 text-primary" />
+                Web Development
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-2">
+                {skills["Web Development"].map((skill) => (
                   <Badge key={skill} variant="default">
                     {skill}
                   </Badge>
@@ -44,12 +62,12 @@ export const Skills = () => {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Database className="mr-2 h-5 w-5 text-primary" />
-                Backend
+                Database
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
-                {skills.backend.map((skill) => (
+                {skills["Database"].map((skill) => (
                   <Badge key={skill} variant="default">
                     {skill}
                   </Badge>
@@ -61,31 +79,13 @@ export const Skills = () => {
           <Card className="shadow-blue-500/50 hover:scale-105 transition-all duration-300 ease-in-out">
             <CardHeader>
               <CardTitle className="flex items-center">
-                <Wrench className="mr-2 h-5 w-5 text-primary" />
-                Tools
+                <Box className="mr-2 h-5 w-5 text-primary" />
+                Other
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
-                {skills.tools.map((skill) => (
-                  <Badge key={skill} variant="default">
-                    {skill}
-                  </Badge>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="shadow-blue-500/50 hover:scale-105 transition-all duration-300 ease-in-out">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Users className="mr-2 h-5 w-5 text-primary" />
-                Soft Skills
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-2">
-                {skills.soft.map((skill) => (
+                {skills["Other"].map((skill) => (
                   <Badge key={skill} variant="default">
                     {skill}
                   </Badge>
