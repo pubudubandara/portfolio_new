@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Mail, Github, Linkedin } from "lucide-react";
+import { Mail, Github, Linkedin, Phone } from "lucide-react"; // Added Phone icon
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -23,7 +23,9 @@ export const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -54,7 +56,8 @@ export const Contact = () => {
       } else {
         toast({
           title: "Error",
-          description: data.error || "Failed to send message. Please try again.",
+          description:
+            data.error || "Failed to send message. Please try again.",
           variant: "destructive",
         });
       }
@@ -69,7 +72,10 @@ export const Contact = () => {
     }
   };
   return (
-    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-bg-muted/30 to-cyan-400/10">
+    <section
+      id="contact"
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-bg-muted/30 to-cyan-400/10"
+    >
       <div className="max-w-4xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
           Get In Touch
@@ -79,14 +85,24 @@ export const Contact = () => {
           <div>
             <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
             <div className="space-y-4">
+              {/* Phone with icon */}
+              <div className="flex items-center">
+                <Phone className="mr-3 h-5 w-5 text-primary" />
+                <p>070 31 43 723</p>
+              </div>
               <div className="flex items-center">
                 <Mail className="mr-3 h-5 w-5 text-primary" />
-                <a href="mailto:pubudumb@gmail.com" className="text-primary underline">pubudumb@gmail.com</a>
+                <a
+                  href="mailto:pubudumb@gmail.com"
+                  className="text-primary underline"
+                >
+                  pubudumb@gmail.com
+                </a>
               </div>
               <div className="flex space-x-4 mt-6">
                 <Button size="icon" variant="outline" asChild>
                   <a
-                    href="https://linkedin.com"
+                    href="https://www.linkedin.com/in/pubudu-bandara/"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -95,7 +111,7 @@ export const Contact = () => {
                 </Button>
                 <Button size="icon" variant="outline" asChild>
                   <a
-                    href="https://github.com"
+                    href="https://github.com/pubudubandara"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -109,8 +125,7 @@ export const Contact = () => {
           {/* Contact Form Section with Background Glow */}
           <div className="relative">
             {/* Glowing background behind the form */}
-           <div className="absolute top-0 left-0 w-16 h-16 rounded-xl z-0 bg-cyan-400/20 shadow-[0px_0px_60px_20px_rgba(0,255,255,0.4)]" />
-
+            <div className="absolute top-0 left-0 w-16 h-16 rounded-xl z-0 bg-cyan-400/20 shadow-[0px_0px_60px_20px_rgba(0,255,255,0.4)]" />
 
             {/* Form Card */}
             <Card className="relative z-10 shadow-blue-500/50">
@@ -124,29 +139,29 @@ export const Contact = () => {
               <CardContent>
                 <form className="space-y-4" onSubmit={handleSubmit}>
                   <div>
-                    <Input 
+                    <Input
                       name="name"
-                      placeholder="Your Name" 
+                      placeholder="Your Name"
                       value={formData.name}
                       onChange={handleChange}
                       required
                     />
                   </div>
                   <div>
-                    <Input 
-                      type="email" 
+                    <Input
+                      type="email"
                       name="email"
-                      placeholder="Your Email" 
+                      placeholder="Your Email"
                       value={formData.email}
                       onChange={handleChange}
                       required
                     />
                   </div>
                   <div>
-                    <Textarea 
+                    <Textarea
                       name="message"
-                      placeholder="Your Message" 
-                      rows={4} 
+                      placeholder="Your Message"
+                      rows={4}
                       value={formData.message}
                       onChange={handleChange}
                       required

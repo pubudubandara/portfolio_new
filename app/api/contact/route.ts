@@ -88,11 +88,20 @@ ${message}
       </div>
     `;
 
+    // Ensure EMAIL_USER is defined
+    const emailUser = process.env.EMAIL_USER;
+    if (!emailUser) {
+      return NextResponse.json(
+        { error: 'Email service is not configured properly.' },
+        { status: 500 }
+      );
+    }
+
     // Send email
     await sendEmail({
       subject: emailSubject,
       message: emailMessage,
-      to: process.env.EMAIL_TO || process.env.EMAIL_USER || 'your-email@example.com',
+      to: emailUser,
       reply_to: email,
     });
 

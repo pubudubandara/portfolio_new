@@ -5,7 +5,7 @@ import Skill from '@/models/Skill';
 export async function GET() {
   try {
     await connectDB();
-    const skills = await Skill.find({}).sort({ createdAt: -1 });
+    const skills = await Skill.find({}).sort({ createdAt: 1 });
     return NextResponse.json({ success: true, data: skills });
   } catch (error) {
     return NextResponse.json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' }, { status: 500 });

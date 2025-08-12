@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Code, Database, Wrench, Box, Cpu, Globe, Smartphone, Server } from "lucide-react";
+import { SkillsSkeleton } from "@/components/skeletons/SkillsSkeleton";
 
 interface Skill {
   _id: string;
@@ -58,16 +59,7 @@ export const Skills = () => {
   };
 
   if (loading) {
-    return (
-      <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-bg-muted/30 via-cyan-400/10 to-bg-muted/30">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
-            Skills & Technologies
-          </h2>
-          <div className="text-center">Loading skills...</div>
-        </div>
-      </section>
-    );
+    return <SkillsSkeleton />;
   }
 
   return (

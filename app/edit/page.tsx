@@ -23,8 +23,22 @@ interface Project {
   title: string;
   description: string;
   tech: string[];
+  contribution: string;
   github: string;
   demo: string;
+}
+
+interface Contribution {
+  _id?: string;
+  title: string;
+  description: string;
+  organization: string;
+  type: string;
+  tech: string[];
+  github: string;
+  demo: string;
+  pullRequestUrl: string;
+  status: string;
 }
 
 const AdminPanel = () => {
@@ -34,9 +48,12 @@ const AdminPanel = () => {
   const [password, setPassword] = useState('')
   const [skills, setSkills] = useState<Skill[]>([])
   const [projects, setProjects] = useState<Project[]>([])
+  const [contributions, setContributions] = useState<Contribution[]>([])
   const [editingSkill, setEditingSkill] = useState<Skill | null>(null)
   const [editingProject, setEditingProject] = useState<Project | null>(null)
+  const [editingContribution, setEditingContribution] = useState<Contribution | null>(null)
   const [isAddingProject, setIsAddingProject] = useState(false)
+  const [isAddingContribution, setIsAddingContribution] = useState(false)
   const { toast } = useToast()
 
   // Check authentication status on load
@@ -308,7 +325,7 @@ const AdminPanel = () => {
         {/* Project Edit/Add Modal */}
         {(editingProject || isAddingProject) && (
           <ProjectEditor
-            project={editingProject || { title: '', description: '', tech: [], github: '', demo: '' }}
+            project={editingProject || { title: '', description: '', tech: [], contribution: '', github: '', demo: '' }}
             onSave={handleSaveProject}
             onCancel={() => {
               setEditingProject(null)
@@ -387,6 +404,7 @@ const ProjectCard = ({ project, onEdit, onDelete }: {
           <Badge key={index} variant="outline">{tech}</Badge>
         ))}
       </div>
+      <p className="text-sm text-gray-600 mb-2">{project.contribution}</p>
     </CardContent>
   </Card>
 )
@@ -509,6 +527,12 @@ const ProjectEditor = ({ project, onSave, onCancel }: {
             value={editProject.description}
             onChange={(e) => setEditProject({ ...editProject, description: e.target.value })}
             rows={3}
+          />
+          <Textarea
+            placeholder="My Contribution (What did you specifically contribute to this project?)"
+            value={editProject.contribution}
+            onChange={(e) => setEditProject({ ...editProject, contribution: e.target.value })}
+            rows={2}
           />
           <Input
             placeholder="GitHub URL"

@@ -13,6 +13,10 @@ const ProjectSchema = new mongoose.Schema({
     type: String,
     required: true,
   }],
+  contribution: {
+    type: String,
+    default: '',
+  },
   github: {
     type: String,
   },
