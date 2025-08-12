@@ -37,7 +37,6 @@ export const Projects = () => {
       const data = await response.json()
 
       if (data.success && Array.isArray(data.data)) {
-        // Remove filtering — show all projects
         setProjects(data.data)
       } else {
         setProjects([])
@@ -92,7 +91,7 @@ export const Projects = () => {
                   {project.contribution?.trim() && (
                     <div className="mb-4">
                       <h4 className="font-semibold text-sm text-muted-foreground mb-2">My Contribution:</h4>
-                      <p className="text-sm bg-muted/30 p-3 rounded-md border-l-4 border-primary">
+                      <p className="text-sm bg-muted/30 p-3 rounded-sm border-l-2 border-primary">
                         {project.contribution}
                       </p>
                     </div>

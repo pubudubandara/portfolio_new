@@ -51,7 +51,16 @@ export const Hero = () => {
               <Download className="mr-2 h-5 w-5" />
               Download CV
             </Button>
-            <Button size="lg" variant="outline">
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => {
+              const section = document.getElementById("contact");
+              if (section) {
+                section.scrollIntoView({ behavior: "smooth" });
+              }
+              }}
+            >
               <Mail className="mr-2 h-5 w-5" />
               Contact Me
             </Button>
