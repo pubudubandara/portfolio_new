@@ -13,11 +13,11 @@ export const Hero = () => {
       >
         <div className="max-w-4xl mx-auto text-center">
           <div className="mb-8 flex justify-center">
-            <div className="flex w-[200px] h-[200px] justify-center items-center relative">
+            <div className="flex w-[200px] h-[200px] justify-center items-center relative bg-cyan-400/20 rounded-full shadow-[0px_0px_60px_10px_rgba(0,255,255,0.4)]">
               {/* Colored rings - adjusted to hug the image */}
-              <div className="w-full h-full shadow-2xl shadow-pink-500/40 bg-transparent rounded-full absolute animate-pulse -m-1"></div>
+              {/* <div className="w-full h-full shadow-2xl shadow-pink-500/40 bg-transparent rounded-full absolute animate-pulse -m-1"></div>
               <div className="w-full h-full shadow-2xl shadow-violet-500/40 bg-transparent rounded-full absolute rotate-90 animate-pulse -m-1"></div>
-              <div className="w-full h-full shadow-2xl shadow-cyan-500/40 bg-transparent rounded-full absolute rotate-180 animate-pulse -m-1"></div>
+              <div className="w-full h-full shadow-2xl shadow-cyan-500/40 bg-transparent rounded-full absolute rotate-180 animate-pulse -m-1"></div> */}
 
               {/* Image - made slightly larger to overlap rings */}
               <Image
@@ -47,10 +47,21 @@ export const Hero = () => {
             speed={80}
           />
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-4">
-            <Button size="lg" className="shadow-lg">
-              <Download className="mr-2 h-5 w-5" />
-              Download CV
-            </Button>
+            <Button 
+  size="lg" 
+  className="shadow-lg"
+  asChild // If using shadcn/ui
+>
+  <a 
+    href="https://drive.google.com/uc?export=download&id=1dz1FXPPt1fDrU1TS-a2DShDGTUD_hDep" 
+    download="PubuduCV.pdf"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Download className="mr-2 h-5 w-5" />
+    Download CV
+  </a>
+</Button>
             <Button
               size="lg"
               variant="outline"

@@ -238,13 +238,6 @@ const AdminPanel = () => {
                 Login
               </Button>
             </form>
-            <div className="mt-4 p-4 bg-gray-100 rounded-lg">
-              <p className="text-sm text-gray-600 text-center">
-                <strong>Default Credentials:</strong><br />
-                Username: admin<br />
-                Password: admin123
-              </p>
-            </div>
           </CardContent>
         </Card>
       </div>
