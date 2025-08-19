@@ -9,7 +9,6 @@ import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
 import { Skills } from "@/components/Skill";
 import {Projects} from "@/components/Projects";
-import {Resume }from "@/components/Resume";
 import {Contact} from "@/components/Contact";
 import {Footer} from "@/components/Footer";
 
@@ -28,7 +27,6 @@ export default function Portfolio() {
         "about",
         "skills",
         "projects",
-        "resume",
         "contact",
       ];
       const scrollPosition = window.scrollY + 100;
@@ -79,7 +77,6 @@ export default function Portfolio() {
           { id: "about", label: "About" },
           { id: "skills", label: "Skills" },
           { id: "projects", label: "Projects" },
-          { id: "resume", label: "Resume" },
           { id: "contact", label: "Contact" },
         ]}
       />
@@ -99,11 +96,6 @@ export default function Portfolio() {
       <AnimatedSection animation="fadeLeft">
         <Projects />
       </AnimatedSection>
-
-      <AnimatedSection animation="fadeLeft">
-        <Resume />
-      </AnimatedSection>
-
       <AnimatedSection animation="fadeRight">
         <Contact />
       </AnimatedSection>
