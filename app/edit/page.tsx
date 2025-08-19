@@ -42,10 +42,6 @@ interface Contribution {
 }
 
 const AdminPanel = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [skills, setSkills] = useState<Skill[]>([])
   const [projects, setProjects] = useState<Project[]>([])
   const [contributions, setContributions] = useState<Contribution[]>([])
@@ -54,50 +50,34 @@ const AdminPanel = () => {
   const [editingContribution, setEditingContribution] = useState<Contribution | null>(null)
   const [isAddingProject, setIsAddingProject] = useState(false)
   const [isAddingContribution, setIsAddingContribution] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const { toast } = useToast()
 
-  // Check authentication status on load
+  // Fetch data on component mount
   useEffect(() => {
-    checkAuth()
+    fetchData()
   }, [])
 
-  const checkAuth = async () => {
+  const handleLogout = async () => {
     try {
-      const response = await fetch('/api/auth')
-      const data = await response.json()
-      setIsAuthenticated(data.authenticated)
-    } catch (error) {
-      setIsAuthenticated(false)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    try {
-      const response = await fetch('/api/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      })
+      const response = await fetch('/api/auth/logout', {
+        method: 'GET',
+      });
       
-      const data = await response.json()
-      
-      if (data.success) {
-        setIsAuthenticated(true)
-        toast({ title: 'Success', description: 'Login successful!' })
-        fetchData()
+      if (response.ok) {
+        toast({ title: 'Success', description: 'Logged out successfully' });
+        window.location.href = '/login';
       } else {
-        toast({ title: 'Error', description: data.error, variant: 'destructive' })
+        toast({ title: 'Error', description: 'Logout failed', variant: 'destructive' });
       }
     } catch (error) {
-      toast({ title: 'Error', description: 'Login failed', variant: 'destructive' })
+      toast({ title: 'Error', description: 'Logout failed', variant: 'destructive' });
     }
   }
 
   const fetchData = async () => {
     try {
+      setIsLoading(true)
       const [skillsResponse, projectsResponse] = await Promise.all([
         fetch('/api/skills'),
         fetch('/api/projects')
@@ -116,6 +96,8 @@ const AdminPanel = () => {
       if (projectsData.success) setProjects(projectsData.data)
     } catch (error) {
       toast({ title: 'Error', description: 'Failed to fetch data', variant: 'destructive' })
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -131,12 +113,6 @@ const AdminPanel = () => {
       console.error('Failed to initialize default skills:', error)
     }
   }
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      fetchData()
-    }
-  }, [isAuthenticated])
 
   // Skill management functions
   const handleSaveSkill = async (skill: Skill) => {
@@ -211,45 +187,12 @@ const AdminPanel = () => {
     )
   }
 
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center ">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle className="text-center">Admin Login</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleLogin} className="space-y-4">
-              <Input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-              <Input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <Button type="submit" className="w-full">
-                Login
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-    )
-  }
-
   return (
     <div className="min-h-screen p-4">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">Portfolio Admin Panel</h1>
-          <Button variant="outline" onClick={() => setIsAuthenticated(false)}>
+          <Button variant="outline" onClick={handleLogout}>
             <LogOut className="w-4 h-4 mr-2" />
             Logout
           </Button>
