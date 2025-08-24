@@ -1,5 +1,8 @@
 'use client'
 
+import { useEffect, useRef } from "react"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import {
   Card,
   CardContent,
@@ -8,12 +11,68 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
+// Register ScrollTrigger
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger)
+}
+
 export const About = () => {
+  const sectionRef = useRef<HTMLElement>(null)
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const textRef = useRef<HTMLDivElement>(null)
+  const cardRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    const title = titleRef.current
+    const text = textRef.current
+    const card = cardRef.current
+
+    if (!section || !title || !text || !card) return
+
+    // Set initial states
+    gsap.set([title, text, card], { opacity: 0, y: 50 })
+
+    // Create scroll-triggered animations
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top 80%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse"
+      }
+    })
+
+    timeline
+      .to(title, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out"
+      })
+      .to(text, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out"
+      }, "-=0.4")
+      .to(card, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out"
+      }, "-=0.4")
+
+    return () => {
+      timeline.kill()
+    }
+  }, [])
+
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 relative">
+    <section ref={sectionRef} id="about" className="py-20 px-4 sm:px-6 lg:px-8 relative">
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 dark:from-white dark:via-blue-100 dark:to-white bg-clip-text text-transparent mb-4">
+          <h2 ref={titleRef} className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 dark:from-white dark:via-blue-100 dark:to-white bg-clip-text text-transparent mb-4">
             About Me
           </h2>
           
@@ -22,7 +81,7 @@ export const About = () => {
 
         <div className="grid md:grid-cols-2 gap-8 items-center">
           {/* Left Text Section */}
-          <div className="space-y-6">
+          <div ref={textRef} className="space-y-6">
             <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed font-medium">
               I'm a passionate Information Technology student at the University
               of Moratuwa, currently pursuing my BSc (Hons) in IT. I have a
@@ -38,10 +97,8 @@ export const About = () => {
           </div>
 
           {/* Right Card Section */}
-          <div className="relative">
-            {/* Main Card with all effects applied directly */}
+          <div ref={cardRef} className="relative">
             <Card className="group relative overflow-hidden border border-gray-200/80 dark:border-gray-700/50 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.02]">
-              {/* Gradient border effect - now inside the card */}
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 via-purple-500/15 to-cyan-500/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
               <div className="relative z-10">
                 <CardHeader>

@@ -1,6 +1,13 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { gsap } from "gsap"
+import { ScrollToPlugin } from "gsap/ScrollToPlugin"
+
+// Register ScrollToPlugin
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollToPlugin)
+}
 
 interface ScrollSpyNavigationProps {
   sections: Array<{
@@ -14,30 +21,56 @@ export default function ScrollSpyNavigation({ sections }: ScrollSpyNavigationPro
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100
+      // Get current scroll position
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const scrollWithOffset = scrollPosition + windowHeight / 2; // Use center of viewport
 
-      for (const section of sections) {
-        const element = document.getElementById(section.id)
+      let currentSection = sections[0]?.id || ""; // default to first section
+
+      for (let i = 0; i < sections.length; i++) {
+        const element = document.getElementById(sections[i].id);
         if (element) {
-          const offsetTop = element.offsetTop
-          const offsetHeight = element.offsetHeight
-
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section.id)
-            break
+          const offsetTop = element.offsetTop;
+          const offsetHeight = element.offsetHeight;
+          
+          // Check if the center of the viewport is within this section
+          if (scrollWithOffset >= offsetTop && scrollWithOffset < offsetTop + offsetHeight) {
+            currentSection = sections[i].id;
+            break;
+          }
+          
+          // Special case for the last section
+          if (i === sections.length - 1 && scrollWithOffset >= offsetTop) {
+            currentSection = sections[i].id;
           }
         }
       }
-    }
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [sections])
+      if (currentSection !== activeSection) {
+        setActiveSection(currentSection);
+      }
+    };
+
+    // Initial call to set the correct section on page load
+    setTimeout(handleScroll, 100); // Small delay to ensure elements are rendered
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true }); // Also handle resize
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, [sections, activeSection]);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
+      gsap.to(window, {
+        duration: 1.2,
+        scrollTo: { y: element, offsetY: 50 },
+        ease: "power3.inOut",
+      });
     }
   }
 

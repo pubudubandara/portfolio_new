@@ -1,5 +1,8 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import {
   Card,
   CardContent,
@@ -11,8 +14,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Mail, Github, Linkedin, Phone } from "lucide-react";
-import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+
+// Register ScrollTrigger
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 export const Contact = () => {
   const [formData, setFormData] = useState({
@@ -22,6 +29,52 @@ export const Contact = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const sectionRef = useRef<HTMLElement>(null)
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const formRef = useRef<HTMLDivElement>(null)
+  const contactInfoRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    const title = titleRef.current
+    const form = formRef.current
+    const contactInfo = contactInfoRef.current
+
+    if (!section || !title || !form || !contactInfo) return
+
+    // Set initial states
+    gsap.set([title], { opacity: 0, y: 50 })
+    gsap.set([form, contactInfo], { opacity: 0, y: 80 })
+
+    // Create scroll-triggered animations
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top 80%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse"
+      }
+    })
+
+    timeline
+      .to(title, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out"
+      })
+      .to([form, contactInfo], {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power3.out"
+      }, "-=0.4")
+
+    return () => {
+      timeline.kill()
+    }
+  }, [])
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -74,12 +127,13 @@ export const Contact = () => {
 
   return (
     <section
+      ref={sectionRef}
       id="contact"
       className="py-20 px-4 sm:px-6 lg:px-8 relative"
     >
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 dark:from-white dark:via-blue-100 dark:to-white bg-clip-text text-transparent mb-4">
+          <h2 ref={titleRef} className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 dark:from-white dark:via-blue-100 dark:to-white bg-clip-text text-transparent mb-4">
             Get In Touch
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mt-4 rounded-full" />
@@ -87,7 +141,7 @@ export const Contact = () => {
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Contact Info Section */}
-          <div className="space-y-6">
+          <div ref={contactInfoRef} className="space-y-6">
             <div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Contact Information</h3>
               <div className="space-y-4">
@@ -151,7 +205,7 @@ export const Contact = () => {
           </div>
 
           {/* Contact Form Section */}
-          <div className="relative">
+          <div ref={formRef} className="relative">
             {/* Form Card */}
             <Card className="group relative overflow-hidden border border-gray-200/80 dark:border-gray-700/50 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.02]">
               {/* Gradient border effect - now inside the card */}

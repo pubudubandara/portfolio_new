@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -14,6 +16,11 @@ import {
   Server,
 } from "lucide-react";
 import { SkillsSkeleton } from "@/components/skeletons/SkillsSkeleton";
+
+// Register ScrollTrigger
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 interface Skill {
   _id: string;
@@ -40,10 +47,57 @@ export const Skills = () => {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [loading, setLoading] = useState(true);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const sectionRef = useRef<HTMLElement>(null)
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const skillsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     fetchSkills();
   }, []);
+
+  useEffect(() => {
+    if (!loading && skills.length > 0) {
+      const section = sectionRef.current
+      const title = titleRef.current
+      const skillsContainer = skillsRef.current
+
+      if (!section || !title || !skillsContainer) return
+
+      // Set initial states
+      gsap.set([title], { opacity: 0, y: 50 })
+      gsap.set(skillsContainer.children, { opacity: 0, y: 80, scale: 0.9 })
+
+      // Create scroll-triggered animations
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse"
+        }
+      })
+
+      timeline
+        .to(title, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out"
+        })
+        .to(skillsContainer.children, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: "power3.out"
+        }, "-=0.4")
+
+      return () => {
+        timeline.kill()
+      }
+    }
+  }, [loading, skills])
 
   const fetchSkills = async () => {
     try {
@@ -69,12 +123,13 @@ export const Skills = () => {
 
   return (
     <section
+      ref={sectionRef}
       id="skills"
       className="py-20 px-4 sm:px-6 lg:px-8 relative"
     >
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 dark:from-white dark:via-blue-100 dark:to-white bg-clip-text text-transparent mb-4">
+          <h2 ref={titleRef} className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 dark:from-white dark:via-blue-100 dark:to-white bg-clip-text text-transparent mb-4 pb-2">
             Skills & Technologies
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mt-4 rounded-full" />
@@ -91,17 +146,13 @@ export const Skills = () => {
             </p>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div ref={skillsRef} className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {skills.map((skill, index) => {
               const IconComponent = getIcon(skill.icon);
               return (
                 <Card
                   key={skill._id}
                   className="group relative overflow-hidden border border-gray-200/80 dark:border-gray-700/50 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.02]"
-                  style={{
-                    animationDelay: `${index * 100}ms`,
-                    animation: "fadeInUp 0.6s ease-out forwards",
-                  }}
                   onMouseEnter={() => setHoveredCard(skill._id)}
                   onMouseLeave={() => setHoveredCard(null)}
                 >

@@ -2,8 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
+import { gsap } from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { usePageAnimations } from "@/hooks/usePageAnimations";
+import { useScrollSpy } from "@/hooks/useScrollSpy";
 import ScrollSpyNavigation from "@/components/scroll-spy-navigation";
-import AnimatedSection from "@/components/AnimatedSection";
 import { Navigation } from "@/components/Navigation";
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
@@ -12,50 +15,38 @@ import {Projects} from "@/components/Projects";
 import {Contact} from "@/components/Contact";
 import {Footer} from "@/components/Footer";
 
+// Register ScrollToPlugin
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollToPlugin);
+}
+
 export default function Portfolio() {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("hero");
+  
+  // Use the custom scroll spy hook
+  const sections = ["hero", "about", "skills", "projects", "contact"];
+  const activeSection = useScrollSpy({ 
+    sections,
+    offset: 200  // Offset from top when section becomes active
+  });
+
+  // Initialize page animations
+  usePageAnimations();
 
   useEffect(() => {
     setMounted(true);
-
-    const handleScroll = () => {
-      const sections = [
-        "hero",
-        "about",
-        "skills",
-        "projects",
-        "contact",
-      ];
-      const scrollPosition = window.scrollY + 100;
-
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const offsetTop = element.offsetTop;
-          const offsetHeight = element.offsetHeight;
-
-          if (
-            scrollPosition >= offsetTop &&
-            scrollPosition < offsetTop + offsetHeight
-          ) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      gsap.to(window, {
+        duration: 1.2,
+        scrollTo: { y: element, offsetY: 50 },
+        ease: "power3.inOut",
+      });
     }
     setIsMenuOpen(false);
   };
@@ -82,7 +73,7 @@ export default function Portfolio() {
           setIsMenuOpen={setIsMenuOpen}
         />
 
-      <ScrollSpyNavigation
+      <ScrollSpyNavigation 
         sections={[
           { id: "hero", label: "Home" },
           { id: "about", label: "About" },
@@ -91,25 +82,12 @@ export default function Portfolio() {
           { id: "contact", label: "Contact" },
         ]}
       />
-
-      <AnimatedSection animation="fadeUp">
-        <Hero />
-      </AnimatedSection>
-
-      <AnimatedSection animation="fadeLeft">
-        <About />
-      </AnimatedSection>
-
-      <AnimatedSection animation="fadeRight">
-        <Skills />
-      </AnimatedSection>
-
-      <AnimatedSection animation="fadeLeft">
-        <Projects />
-      </AnimatedSection>
-      <AnimatedSection animation="fadeRight">
-        <Contact />
-      </AnimatedSection>
+      
+      <Hero />
+      <About />
+      <Skills />
+      <Projects />
+      <Contact />
 
       <Footer />
       </div>

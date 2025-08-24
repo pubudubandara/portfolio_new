@@ -1,6 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import {
   Card,
   CardContent,
@@ -12,6 +14,11 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Github, ExternalLink, Code2 } from 'lucide-react'
 import { ProjectsSkeleton } from '@/components/skeletons/ProjectsSkeleton'
+
+// Register ScrollTrigger
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 interface Project {
   _id: string
@@ -27,10 +34,57 @@ export const Projects = () => {
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
   const [hoveredProject, setHoveredProject] = useState<string | null>(null)
+  const sectionRef = useRef<HTMLElement>(null)
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const projectsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     fetchProjects()
   }, [])
+
+  useEffect(() => {
+    if (!loading && projects.length > 0) {
+      const section = sectionRef.current
+      const title = titleRef.current
+      const projectsContainer = projectsRef.current
+
+      if (!section || !title || !projectsContainer) return
+
+      // Set initial states
+      gsap.set([title], { opacity: 0, y: 50 })
+      gsap.set(projectsContainer.children, { opacity: 0, y: 80, scale: 0.9 })
+
+      // Create scroll-triggered animations
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse"
+        }
+      })
+
+      timeline
+        .to(title, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out"
+        })
+        .to(projectsContainer.children, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          stagger: 0.2,
+          ease: "power3.out"
+        }, "-=0.4")
+
+      return () => {
+        timeline.kill()
+      }
+    }
+  }, [loading, projects])
 
   const fetchProjects = async () => {
     try {
@@ -56,12 +110,13 @@ export const Projects = () => {
 
   return (
     <section
+      ref={sectionRef}
       id="projects"
       className="py-20 px-4 sm:px-6 lg:px-8 relative"
     >
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 dark:from-white dark:via-blue-100 dark:to-white bg-clip-text text-transparent mb-4">
+          <h2 ref={titleRef} className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 dark:from-white dark:via-blue-100 dark:to-white bg-clip-text text-transparent mb-4 pb-2">
             Featured Projects
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mt-4 rounded-full" />
@@ -78,15 +133,11 @@ export const Projects = () => {
             </p>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 gap-8">
+          <div ref={projectsRef} className="grid md:grid-cols-2 gap-8">
             {projects.map((project, index) => (
               <Card
                 key={project._id}
                 className="group relative overflow-hidden border border-gray-200/80 dark:border-gray-700/50 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.02]"
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                  animation: 'fadeInUp 0.6s ease-out forwards'
-                }}
                 onMouseEnter={() => setHoveredProject(project._id)}
                 onMouseLeave={() => setHoveredProject(null)}
               >
@@ -180,7 +231,7 @@ export const Projects = () => {
                   </CardContent>
                 </div>
               </Card>
-            ))}
+              ))}
           </div>
         )}
       </div>
