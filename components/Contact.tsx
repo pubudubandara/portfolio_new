@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Mail, Github, Linkedin, Phone } from "lucide-react"; // Added Phone icon
+import { Mail, Github, Linkedin, Phone } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -71,36 +71,64 @@ export const Contact = () => {
       setIsLoading(false);
     }
   };
+
   return (
     <section
       id="contact"
-      className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-bg-muted/30 to-cyan-400/10"
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-100/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden"
     >
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
-          Get In Touch
-        </h2>
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 bg-grid-slate-100 dark:bg-grid-slate-700/15 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.3))] dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.05),rgba(255,255,255,0.2))]" />
+      <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-br from-blue-400/10 to-purple-600/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-tr from-cyan-400/10 to-blue-600/10 rounded-full blur-3xl" />
+      
+      <div className="max-w-6xl mx-auto relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 dark:from-white dark:via-blue-100 dark:to-white bg-clip-text text-transparent mb-4">
+            Get In Touch
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mt-4 rounded-full" />
+        </div>
+
         <div className="grid md:grid-cols-2 gap-8">
           {/* Contact Info Section */}
-          <div>
-            <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
-            <div className="space-y-4">
-              {/* Phone with icon */}
-              <div className="flex items-center">
-                <Phone className="mr-3 h-5 w-5 text-primary" />
-                <p>070 31 43 723</p>
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Contact Information</h3>
+              <div className="space-y-4">
+                {/* Phone with icon */}
+                <div className="flex items-center p-5 rounded-lg bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-950/30 dark:to-indigo-950/30 border border-blue-200/50 dark:border-blue-800/30">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/50 mr-4">
+                    <Phone className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <p className="text-gray-700 dark:text-gray-300 font-medium">070 31 43 723</p>
+                </div>
+                
+                {/* Email with icon */}
+                <div className="flex items-center p-5 rounded-lg bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-950/30 dark:to-indigo-950/30 border border-blue-200/50 dark:border-blue-800/30">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/50 mr-4">
+                    <Mail className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <a
+                    href="mailto:pubudumb@gmail.com"
+                    className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
+                  >
+                    pubudumb@gmail.com
+                  </a>
+                </div>
               </div>
-              <div className="flex items-center">
-                <Mail className="mr-3 h-5 w-5 text-primary" />
-                <a
-                  href="mailto:pubudumb@gmail.com"
-                  className="text-primary underline"
+            </div>
+            
+            {/* Social Links */}
+            <div className="pt-4">
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Follow Me</h4>
+              <div className="flex space-x-4">
+                <Button 
+                  size="icon" 
+                  variant="outline" 
+                  className="w-11 h-11 border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/70 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300"
+                  asChild
                 >
-                  pubudumb@gmail.com
-                </a>
-              </div>
-              <div className="flex space-x-4 mt-6">
-                <Button size="icon" variant="outline" asChild>
                   <a
                     href="https://www.linkedin.com/in/pubudu-bandara/"
                     target="_blank"
@@ -109,7 +137,12 @@ export const Contact = () => {
                     <Linkedin className="h-5 w-5" />
                   </a>
                 </Button>
-                <Button size="icon" variant="outline" asChild>
+                <Button 
+                  size="icon" 
+                  variant="outline"
+                  className="w-11 h-11 border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/70 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300"
+                  asChild
+                >
                   <a
                     href="https://github.com/pubudubandara"
                     target="_blank"
@@ -122,56 +155,65 @@ export const Contact = () => {
             </div>
           </div>
 
-          {/* Contact Form Section with Background Glow */}
+          {/* Contact Form Section */}
           <div className="relative">
-            {/* Glowing background behind the form */}
-            <div className="absolute top-0 left-0 w-16 h-16 rounded-xl z-0 bg-cyan-400/20 shadow-[0px_0px_60px_20px_rgba(0,255,255,0.4)]" />
-
             {/* Form Card */}
-            <Card className="relative z-10 shadow-blue-500/50">
-              <CardHeader>
-                <CardTitle>Send a Message</CardTitle>
-                <CardDescription>
-                  I'd love to hear from you. Send me a message and I'll respond
-                  as soon as possible.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form className="space-y-4" onSubmit={handleSubmit}>
-                  <div>
-                    <Input
-                      name="name"
-                      placeholder="Your Name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      type="email"
-                      name="email"
-                      placeholder="Your Email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Textarea
-                      name="message"
-                      placeholder="Your Message"
-                      rows={4}
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "Sending..." : "Send Message"}
-                  </Button>
-                </form>
-              </CardContent>
+            <Card className="group relative overflow-hidden border border-gray-200/80 dark:border-gray-700/50 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.02]">
+              {/* Gradient border effect - now inside the card */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 via-purple-500/15 to-cyan-500/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
+              <div className="relative z-10">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-300 mb-2">
+                    Send a Message
+                  </CardTitle>
+                  <CardDescription className="text-gray-700 dark:text-gray-300 font-medium">
+                    Fill out the form below and I'll get back to you soon.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form className="space-y-4" onSubmit={handleSubmit}>
+                    <div>
+                      <Input
+                        name="name"
+                        placeholder="Your Name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        className="h-11 border-2 border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <Input
+                        type="email"
+                        name="email"
+                        placeholder="Your Email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        className="h-11 border-2 border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <Textarea
+                        name="message"
+                        placeholder="Your Message"
+                        rows={4}
+                        value={formData.message}
+                        onChange={handleChange}
+                        required
+                        className="border-2 border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 transition-colors min-h-[100px]"
+                      />
+                    </div>
+                    <Button 
+                      type="submit" 
+                      className="w-full h-11 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 font-semibold"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? "Sending..." : "Send Message"}
+                    </Button>
+                  </form>
+                </CardContent>
+              </div>
             </Card>
           </div>
         </div>

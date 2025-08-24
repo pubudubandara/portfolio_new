@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Github, ExternalLink } from 'lucide-react'
+import { Github, ExternalLink, Code2 } from 'lucide-react'
 import { ProjectsSkeleton } from '@/components/skeletons/ProjectsSkeleton'
 
 interface Project {
@@ -26,6 +26,7 @@ interface Project {
 export const Projects = () => {
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
+  const [hoveredProject, setHoveredProject] = useState<string | null>(null)
 
   useEffect(() => {
     fetchProjects()
@@ -56,69 +57,133 @@ export const Projects = () => {
   return (
     <section
       id="projects"
-      className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-bg-muted/30 to-cyan-400/10"
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-100/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">Projects</h2>
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 bg-grid-slate-100 dark:bg-grid-slate-700/15 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.3))] dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.05),rgba(255,255,255,0.2))]" />
+      <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-br from-blue-400/10 to-purple-600/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-tr from-cyan-400/10 to-blue-600/10 rounded-full blur-3xl" />
+      
+      <div className="max-w-6xl mx-auto relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 dark:from-white dark:via-blue-100 dark:to-white bg-clip-text text-transparent mb-4">
+            Featured Projects
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mt-4 rounded-full" />
+        </div>
 
         {projects.length === 0 ? (
-          <p className="text-center text-muted-foreground">
-            No projects available at the moment.
-          </p>
+          <div className="text-center py-16">
+            <Code2 className="w-16 h-16 mx-auto text-gray-400 dark:text-gray-500 mb-4" />
+            <p className="text-xl text-gray-700 dark:text-gray-300 font-semibold">
+              No projects available at the moment.
+            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+              Check back soon for exciting new projects!
+            </p>
+          </div>
         ) : (
           <div className="grid md:grid-cols-2 gap-8">
-            {projects.map((project) => (
+            {projects.map((project, index) => (
               <Card
                 key={project._id}
-                className="shadow-blue-500/50 hover:scale-105 transition-all duration-300 ease-in-out"
+                className="group relative overflow-hidden border border-gray-200/80 dark:border-gray-700/50 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.02]"
+                style={{
+                  animationDelay: `${index * 100}ms`,
+                  animation: 'fadeInUp 0.6s ease-out forwards'
+                }}
+                onMouseEnter={() => setHoveredProject(project._id)}
+                onMouseLeave={() => setHoveredProject(null)}
               >
-                <CardHeader>
-                  <CardTitle>{project.title}</CardTitle>
-                  <CardDescription>
-                    <pre className="whitespace-pre-wrap mt-1">{project.description}</pre>
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tech.map((tech) => (
-                      <Badge key={tech} variant="secondary">
-                        {tech}
-                      </Badge>
-                    ))}
-                  </div>
-                  
-                  {/* My Contribution Section */}
-                  {project.contribution?.trim() && (
-                    <div className="mb-4">
-                      <h4 className="font-semibold text-sm text-muted-foreground mb-2">My Contribution:</h4>
-                      <p className="text-sm bg-muted/30 p-3 rounded-sm border-l-2 border-primary">
-                        {project.contribution}
-                      </p>
-                    </div>
-                  )}
-                  
-                  <div className="flex space-x-4">
-                    {/* Show GitHub button only if github is a non-empty string */}
-                    {project.github?.trim() && (
-                      <Button variant="outline" size="sm" asChild>
-                        <a href={project.github} target="_blank" rel="noopener noreferrer">
-                          <Github className="w-4 h-4 mr-2" />
-                          Code
-                        </a>
-                      </Button>
-                    )}
+                {/* Gradient border effect - only visible on hover */}
+                <div 
+                  className={`absolute inset-0 bg-gradient-to-r from-blue-500/15 via-purple-500/15 to-cyan-500/15 transition-opacity duration-300 ${
+                    hoveredProject === project._id ? 'opacity-100' : 'opacity-0'
+                  }`}
+                />
 
-                    {/* Show Demo button only if demo is a non-empty string */}
-                    {project.demo?.trim() && (
-                      <Button size="sm" asChild>
-                        <a href={project.demo} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="w-4 h-4 mr-2" />
-                          Live Demo
-                        </a>
-                      </Button>
+                {/* Content */}
+                <div className="relative z-10">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-300">
+                      {project.title}
+                    </CardTitle>
+                    <CardDescription className="text-base leading-relaxed">
+                      <pre className="whitespace-pre-wrap font-sans text-gray-700 dark:text-gray-300 font-medium">
+                        {project.description}
+                      </pre>
+                    </CardDescription>
+                  </CardHeader>
+                  
+                  <CardContent className="space-y-6">
+                    {/* Tech Stack */}
+                    <div className="space-y-3">
+                      <h4 className="text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                        Tech Stack
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {project.tech.map((tech, techIndex) => (
+                          <Badge
+                            key={tech}
+                            variant="secondary"
+                            className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/80 dark:to-indigo-900/80 text-blue-800 dark:text-blue-200 border-blue-300 dark:border-blue-700 hover:from-blue-200 hover:to-indigo-200 dark:hover:from-blue-800 dark:hover:to-indigo-800 transition-all duration-300 text-xs font-semibold px-3 py-1"
+                            style={{
+                              animationDelay: `${(index * 100) + (techIndex * 50)}ms`,
+                              animation: 'fadeInScale 0.4s ease-out forwards'
+                            }}
+                          >
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* My Contribution Section */}
+                    {project.contribution?.trim() && (
+                      <div className="space-y-3">
+                        <h4 className="text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                          My Contribution
+                        </h4>
+                        <div className="relative">
+                          <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-blue-600 to-purple-600 rounded-full" />
+                          <p className="text-sm text-gray-800 dark:text-gray-200 bg-gradient-to-r from-blue-50/90 to-indigo-50/90 dark:from-blue-950/70 dark:to-indigo-950/70 p-4 pl-6 rounded-r-lg border border-l-0 border-blue-200 dark:border-blue-800 leading-relaxed font-medium">
+                            {project.contribution}
+                          </p>
+                        </div>
+                      </div>
                     )}
-                  </div>
-                </CardContent>
+                    
+                    {/* Action Buttons */}
+                    <div className="flex gap-3 pt-2">
+                      {project.github?.trim() && (
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          asChild
+                          className="flex-1 border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/70 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300 group/btn font-semibold"
+                        >
+                          <a href={project.github} target="_blank" rel="noopener noreferrer">
+                            <Github className="w-4 h-4 mr-2 group-hover/btn:rotate-12 transition-transform duration-300" />
+                            View Code
+                          </a>
+                        </Button>
+                      )}
+
+                      {project.demo?.trim() && (
+                        <Button 
+                          size="sm" 
+                          asChild
+                          className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 group/btn font-semibold"
+                        >
+                          <a href={project.demo} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="w-4 h-4 mr-2 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform duration-300" />
+                            Live Demo
+                          </a>
+                        </Button>
+                      )}
+                    </div>
+                  </CardContent>
+                </div>
               </Card>
             ))}
           </div>
