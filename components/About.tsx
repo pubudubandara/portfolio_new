@@ -1,37 +1,32 @@
-'use client'
+"use client";
 
-import { useEffect, useRef } from "react"
-import { gsap } from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 // Register ScrollTrigger
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger)
+  gsap.registerPlugin(ScrollTrigger);
 }
 
 export const About = () => {
-  const sectionRef = useRef<HTMLElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const textRef = useRef<HTMLDivElement>(null)
-  const cardRef = useRef<HTMLDivElement>(null)
+  const sectionRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const section = sectionRef.current
-    const title = titleRef.current
-    const text = textRef.current
-    const card = cardRef.current
+    const section = sectionRef.current;
+    const title = titleRef.current;
+    const text = textRef.current;
+    const card = cardRef.current;
 
-    if (!section || !title || !text || !card) return
+    if (!section || !title || !text || !card) return;
 
     // Set initial states
-    gsap.set([title, text, card], { opacity: 0, y: 50 })
+    gsap.set([title, text, card], { opacity: 0, y: 50 });
 
     // Create scroll-triggered animations
     const timeline = gsap.timeline({
@@ -39,43 +34,58 @@ export const About = () => {
         trigger: section,
         start: "top 80%",
         end: "bottom 20%",
-        toggleActions: "play none none reverse"
-      }
-    })
+        toggleActions: "play none none reverse",
+      },
+    });
 
     timeline
       .to(title, {
         opacity: 1,
         y: 0,
         duration: 0.8,
-        ease: "power3.out"
+        ease: "power3.out",
       })
-      .to(text, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out"
-      }, "-=0.4")
-      .to(card, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out"
-      }, "-=0.4")
+      .to(
+        text,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+        },
+        "-=0.4"
+      )
+      .to(
+        card,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+        },
+        "-=0.4"
+      );
 
     return () => {
-      timeline.kill()
-    }
-  }, [])
+      timeline.kill();
+    };
+  }, []);
 
   return (
-    <section ref={sectionRef} id="about" className="py-20 px-4 sm:px-6 lg:px-8 relative">
+    <section
+      ref={sectionRef}
+      id="about"
+      className="py-20 px-4 sm:px-6 lg:px-8 relative"
+    >
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <h2 ref={titleRef} className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 dark:from-white dark:via-blue-100 dark:to-white bg-clip-text text-transparent mb-4">
+          <h2
+            ref={titleRef}
+            className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 dark:from-white dark:via-blue-100 dark:to-white bg-clip-text text-transparent mb-4"
+          >
             About Me
           </h2>
-          
+
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mt-4 rounded-full" />
         </div>
 
@@ -84,15 +94,13 @@ export const About = () => {
           <div ref={textRef} className="space-y-6">
             <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed font-medium">
               I'm a passionate Information Technology student at the University
-              of Moratuwa, currently pursuing my BSc (Hons) in IT. I have a
-              strong interest in modern web development technologies and
-              artificial intelligence.
+              of Moratuwa, currently pursuing my BSc (Hons) in IT. 
             </p>
             <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed font-medium">
-              My journey in technology has led me to specialize in the MERN
-              stack, where I enjoy building full-stack applications that solve
-              real-world problems. I'm always eager to learn new technologies and
-              take on challenging projects.
+              I'm currently focusing on learning web development, with a strong
+              interest in the MERN stack. I enjoy building full-stack
+              applications that solve real-world problems and am eager to keep
+              growing through new challenges and technologies.
             </p>
           </div>
 
@@ -108,34 +116,42 @@ export const About = () => {
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div>
-                    <h4 className="font-semibold mb-2 text-gray-900 dark:text-white">University</h4>
+                    <h4 className="font-semibold mb-2 text-gray-900 dark:text-white">
+                      University
+                    </h4>
                     <p className="text-gray-700 dark:text-gray-300 font-medium">
                       BSc (Hons) in Information Technology
                     </p>
-                    <p className="text-gray-700 dark:text-gray-300 font-medium">University of Moratuwa</p>
+                    <p className="text-gray-700 dark:text-gray-300 font-medium">
+                      University of Moratuwa
+                    </p>
                   </div>
                   <div>
-                    <h4 className="font-semibold mb-2 text-gray-900 dark:text-white">School</h4>
+                    <h4 className="font-semibold mb-2 text-gray-900 dark:text-white">
+                      School
+                    </h4>
                     <p className="text-gray-700 dark:text-gray-300 font-medium">
                       St. Sylvester's College Kandy
                     </p>
                   </div>
                   <div>
-                    <h4 className="font-semibold mb-2 text-gray-900 dark:text-white">Key Interests</h4>
+                    <h4 className="font-semibold mb-2 text-gray-900 dark:text-white">
+                      Key Interests
+                    </h4>
                     <div className="flex flex-wrap gap-2">
-                      <Badge 
+                      <Badge
                         variant="secondary"
                         className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/80 dark:to-indigo-900/80 text-blue-800 dark:text-blue-200 border-blue-300 dark:border-blue-700 hover:from-blue-200 hover:to-indigo-200 dark:hover:from-blue-800 dark:hover:to-indigo-800 transition-all duration-300 text-xs font-semibold px-3 py-1"
                       >
                         Web Development
                       </Badge>
-                      <Badge 
+                      <Badge
                         variant="secondary"
                         className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/80 dark:to-indigo-900/80 text-blue-800 dark:text-blue-200 border-blue-300 dark:border-blue-700 hover:from-blue-200 hover:to-indigo-200 dark:hover:from-blue-800 dark:hover:to-indigo-800 transition-all duration-300 text-xs font-semibold px-3 py-1"
                       >
                         UI design
                       </Badge>
-                      <Badge 
+                      <Badge
                         variant="secondary"
                         className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/80 dark:to-indigo-900/80 text-blue-800 dark:text-blue-200 border-blue-300 dark:border-blue-700 hover:from-blue-200 hover:to-indigo-200 dark:hover:from-blue-800 dark:hover:to-indigo-800 transition-all duration-300 text-xs font-semibold px-3 py-1"
                       >
