@@ -162,7 +162,7 @@ export const Contact = () => {
           {/* Contact Info Section */}
           <div ref={contactInfoRef} className="space-y-6">
             <div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 text-center sm:text-left">
                 Contact Information
               </h3>
               <div className="space-y-4">
@@ -193,10 +193,10 @@ export const Contact = () => {
 
             {/* Social Links */}
             <div className="pt-4">
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 text-center sm:text-left">
                 Follow Me
               </h4>
-              <div className="flex space-x-4">
+              <div className="flex flex-wrap justify-center sm:justify-start space-x-4 gap-y-3">
                 <Button
                   size="icon"
                   variant="outline"
