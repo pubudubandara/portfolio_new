@@ -118,7 +118,7 @@ export const Hero = () => {
         </h1>
 
         {/* Text container with TypeAnimation */}
-        <div className="text-xl sm:text-2xl text-gray-700 dark:text-gray-300 mb-8 font-medium min-h-[2.5rem] mx-auto flex justify-center max-w-4xl px-4">
+        <div className="text-xl sm:text-2xl text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 font-medium min-h-[4rem] sm:min-h-[2.5rem] mx-auto flex justify-center max-w-4xl px-4">
           <TypeAnimation
             sequence={texts}
             wrapper="span"
@@ -131,10 +131,12 @@ export const Hero = () => {
           />
         </div>
 
-        <div
-          ref={buttonsRef}
-          className="flex flex-col sm:flex-row gap-4 justify-center mt-4"
-        >
+        {/* Buttons Section - Fixed position container */}
+        <div className="w-full flex justify-center px-4 max-w-64 mx-auto">
+          <div
+            ref={buttonsRef}
+            className="flex flex-col sm:flex-row gap-4 justify-center w-full max-w-sm sm:max-w-none"
+          >
           <Button
             size="lg"
             className="magnetic-btn bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 group/btn font-semibold"
@@ -165,6 +167,7 @@ export const Hero = () => {
             <Mail className="mr-2 h-5 w-5" />
             Contact Me
           </Button>
+          </div>
         </div>
       </div>
     </section>
