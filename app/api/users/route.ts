@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
+import { authenticateRequest, createAuthError } from '@/lib/auth';
 
 export async function POST(request: NextRequest) {
   try {
+    // Authenticate user (allow creation only if no admin exists or if authenticated)
+    const user = await authenticateRequest(request);
     await connectDB();
     
     const body = await request.json();
@@ -36,28 +39,25 @@ export async function POST(request: NextRequest) {
 
     // Check if this is the first user being created
     const userCount = await User.countDocuments();
-    if (userCount > 0) {
-      return NextResponse.json(
-        { success: false, error: 'Only one admin user is allowed in the system' },
-        { status: 403 }
-      );
+    if (userCount > 0 && !user) {
+      return createAuthError('Only authenticated users can create additional admin accounts');
     }
 
     // Create new user
-    const user = new User({
+    const newUser = new User({
       username,
       password,
       role: 'admin'
     });
 
-    await user.save();
+    await newUser.save();
 
     // Return user data (without password)
     const userData = {
-      id: user._id,
-      username: user.username,
-      role: user.role,
-      createdAt: user.createdAt,
+      id: newUser._id,
+      username: newUser.username,
+      role: newUser.role,
+      createdAt: newUser.createdAt,
     };
 
     return NextResponse.json(

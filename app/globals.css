@@ -122,9 +122,9 @@
   }
 }
 
-html {
+/* html {
   scroll-behavior: smooth;
-}
+} */
 
 /* Side Navigation Animations */
 @keyframes pulse-dot {
@@ -144,11 +144,11 @@ html {
 }
 
 /* Smooth scroll behavior enhancement */
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
   }
-}
+} */
 
 /* Custom scrollbar for webkit browsers */
 ::-webkit-scrollbar {

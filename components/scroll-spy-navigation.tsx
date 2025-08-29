@@ -67,9 +67,9 @@ export default function ScrollSpyNavigation({ sections }: ScrollSpyNavigationPro
     const element = document.getElementById(sectionId)
     if (element) {
       gsap.to(window, {
-        duration: 1.2,
-        scrollTo: { y: element, offsetY: 50 },
-        ease: "power3.inOut",
+        duration: 0.6,
+        scrollTo: { y: element, offsetY: 30 },
+        ease: "power2.inOut",
       });
     }
   }

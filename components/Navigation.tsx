@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { RiSpyLine } from "react-icons/ri";
 
 export const Navigation = ({
   activeSection,
@@ -48,20 +50,34 @@ export const Navigation = ({
             ))}
           </div>
 
-          {/* Mobile menu button - placed on the right */}
-          <div className="md:hidden">
-            <Button
-              variant="outline"
-              size="icon"
-              className="border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/70 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
-            </Button>
+          {/* Right side - GitHub icon and Mobile menu */}
+          <div className="flex items-center space-x-2">
+            {/* GitHub Edit Link */}
+            <Link href="/edit">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="hover:bg-blue-50 dark:hover:bg-blue-950/70 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300"
+              >
+                <RiSpyLine className="h-8 w-8" />
+              </Button>
+            </Link>
+
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="hover:bg-blue-50 dark:hover:bg-blue-950/70 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                {isMenuOpen ? (
+                  <X className="h-10 w-10" />
+                ) : (
+                  <Menu className="h-10 w-10" />
+                )}
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -86,6 +102,14 @@ export const Navigation = ({
                 {item.label}
               </button>
             ))}
+            
+            {/* Edit Portfolio Link in Mobile Menu */}
+            <Link href="/edit" onClick={() => setIsMenuOpen(false)}>
+              <button className="w-full px-4 py-3 text-left rounded-lg transition-all duration-300 font-semibold text-gray-700 dark:text-gray-300 hover:bg-blue-50/50 dark:hover:bg-blue-950/30 hover:text-blue-600 dark:hover:text-blue-400 flex items-center space-x-3">
+                <RiSpyLine className="h-8 w-8" />
+                <span>Edit Portfolio</span>
+              </button>
+            </Link>
           </div>
         </div>
       )}

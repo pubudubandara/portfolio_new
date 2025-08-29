@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Project from '@/models/Project';
 import { deleteFromCloudinary } from '@/lib/cloudinary';
+import { authenticateRequest, createAuthError } from '@/lib/auth';
 
 export async function GET() {
   try {
@@ -15,6 +16,12 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    // Authenticate user
+    const user = await authenticateRequest(request);
+    if (!user) {
+      return createAuthError();
+    }
+
     await connectDB();
     const body = await request.json();
     const project = await Project.create(body);
@@ -26,6 +33,12 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
+    // Authenticate user
+    const user = await authenticateRequest(request);
+    if (!user) {
+      return createAuthError();
+    }
+
     await connectDB();
     const body = await request.json();
     const { _id, ...updateData } = body;
@@ -43,6 +56,12 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
+    // Authenticate user
+    const user = await authenticateRequest(request);
+    if (!user) {
+      return createAuthError();
+    }
+
     await connectDB();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');

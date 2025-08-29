@@ -59,17 +59,17 @@ export const Skills = () => {
         .to(title, {
           opacity: 1,
           y: 0,
-          duration: 0.8,
+          duration: 0.6,
           ease: "power3.out"
         })
         .to(skillsContainer.children, {
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: 0.8,
-          stagger: 0.15,
+          duration: 0.6,
+          stagger: 0.1,
           ease: "power3.out"
-        }, "-=0.4")
+        }, "-=0.3")
 
       return () => {
         timeline.kill()
