@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { RiSpyLine } from "react-icons/ri";
+import { GiSpy } from "react-icons/gi";
 
 export const Navigation = ({
   activeSection,
@@ -59,7 +59,7 @@ export const Navigation = ({
                 size="icon"
                 className="hover:bg-blue-50 dark:hover:bg-blue-950/70 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300"
               >
-                <RiSpyLine className="h-8 w-8" />
+                <GiSpy className="h-8 w-8" />
               </Button>
             </Link>
 
@@ -106,7 +106,7 @@ export const Navigation = ({
             {/* Edit Portfolio Link in Mobile Menu */}
             <Link href="/edit" onClick={() => setIsMenuOpen(false)}>
               <button className="w-full px-4 py-3 text-left rounded-lg transition-all duration-300 font-semibold text-gray-700 dark:text-gray-300 hover:bg-blue-50/50 dark:hover:bg-blue-950/30 hover:text-blue-600 dark:hover:text-blue-400 flex items-center space-x-3">
-                <RiSpyLine className="h-8 w-8" />
+                <GiSpy className="h-8 w-8" />
                 <span>Edit Portfolio</span>
               </button>
             </Link>

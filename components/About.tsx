@@ -92,11 +92,11 @@ export const About = () => {
       <div className="grid md:grid-cols-2 gap-8 items-center">
         {/* Left Text Section */}
         <div ref={textRef} className="space-y-6">
-        <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed font-medium">
+        <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed font-medium text-justify">
           I'm a passionate Information Technology student at the University
           of Moratuwa, currently pursuing my BSc (Hons) in IT. 
         </p>
-        <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed font-medium">
+        <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed font-medium text-justify">
           I'm currently focusing on learning web development, with a strong
           interest in the MERN stack. I enjoy building full-stack
           applications that solve real-world problems and am eager to keep
