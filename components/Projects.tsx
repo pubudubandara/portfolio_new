@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import Image from 'next/image'
 import {
   Card,
   CardContent,
@@ -24,10 +25,12 @@ interface Project {
   _id: string
   title: string
   description: string
+  imageUrl: string
+  cloudinaryId: string
   tech: string[]
-  contribution: string
   github: string
   demo: string
+  order: number
 }
 
 export const Projects = () => {
@@ -150,6 +153,18 @@ export const Projects = () => {
 
                 {/* Content */}
                 <div className="relative z-10">
+                  {/* Project Image */}
+                  <div className="relative h-48 overflow-hidden rounded-t-lg">
+                    <Image
+                      src={project.imageUrl}
+                      alt={project.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
+                  </div>
+
                   <CardHeader className="pb-4">
                     <CardTitle className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-300">
                       {project.title}
@@ -183,21 +198,6 @@ export const Projects = () => {
                         ))}
                       </div>
                     </div>
-                    
-                    {/* My Contribution Section */}
-                    {project.contribution?.trim() && (
-                      <div className="space-y-3">
-                        <h4 className="text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
-                          My Contribution
-                        </h4>
-                        <div className="relative">
-                          <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-blue-600 to-purple-600 rounded-full" />
-                          <p className="text-sm text-gray-800 dark:text-gray-200 bg-gradient-to-r from-blue-50/90 to-indigo-50/90 dark:from-blue-950/70 dark:to-indigo-950/70 p-4 pl-6 rounded-r-lg border border-l-0 border-blue-200 dark:border-blue-800 leading-relaxed font-medium">
-                            {project.contribution}
-                          </p>
-                        </div>
-                      </div>
-                    )}
                     
                     {/* Action Buttons */}
                     <div className="flex gap-3 pt-2">

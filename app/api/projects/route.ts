@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Project from '@/models/Project';
+import { deleteFromCloudinary } from '@/lib/cloudinary';
 
 export async function GET() {
   try {
     await connectDB();
-    const projects = await Project.find({}).sort({ createdAt: 1 });
+    const projects = await Project.find({}).sort({ order: 1, createdAt: 1 });
     return NextResponse.json({ success: true, data: projects });
   } catch (error) {
     return NextResponse.json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' }, { status: 500 });
@@ -50,11 +51,22 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'ID is required' }, { status: 400 });
     }
     
-    const project = await Project.findByIdAndDelete(id);
+    const project = await Project.findById(id);
     if (!project) {
       return NextResponse.json({ success: false, error: 'Project not found' }, { status: 404 });
     }
+
+    // Delete image from Cloudinary if it exists
+    if (project.cloudinaryId) {
+      try {
+        await deleteFromCloudinary(project.cloudinaryId);
+      } catch (error) {
+        console.error('Failed to delete image from Cloudinary:', error);
+        // Continue with project deletion even if image deletion fails
+      }
+    }
     
+    await Project.findByIdAndDelete(id);
     return NextResponse.json({ success: true, message: 'Project deleted successfully' });
   } catch (error) {
     return NextResponse.json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' }, { status: 400 });

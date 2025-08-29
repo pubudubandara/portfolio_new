@@ -9,19 +9,27 @@ const ProjectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  imageUrl: {
+    type: String,
+    required: true,
+  },
+  cloudinaryId: {
+    type: String,
+    required: true,
+  },
   tech: [{
     type: String,
     required: true,
   }],
-  contribution: {
-    type: String,
-    default: '',
-  },
   github: {
     type: String,
   },
   demo: {
     type: String,
+  },
+  order: {
+    type: Number,
+    default: 0,
   },
 }, {
   timestamps: true,

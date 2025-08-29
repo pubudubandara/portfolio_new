@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const SkillsSkeleton = () => {
@@ -10,28 +10,24 @@ export const SkillsSkeleton = () => {
           <Skeleton className="h-1 w-24 mx-auto mt-4 bg-gradient-to-r from-blue-400 to-purple-400" />
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {[...Array(8)].map((_, index) => (
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6">
+          {[...Array(16)].map((_, index) => (
             <Card 
               key={index} 
-              className="border border-gray-200/80 dark:border-gray-700/50 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm shadow-lg"
+              className="relative overflow-hidden border border-gray-200/80 dark:border-gray-700/50 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm shadow-lg transition-all duration-500"
             >
-              <CardHeader>
-                <div className="flex items-center">
-                  <Skeleton className="h-5 w-5 mr-2 rounded-full bg-gradient-to-r from-blue-400 to-blue-300 dark:from-blue-500 dark:to-blue-400" />
-                  <Skeleton className="h-6 w-24 bg-gradient-to-r from-gray-300 to-gray-200 dark:from-gray-600 dark:to-gray-700" />
+              {/* Gradient overlay skeleton */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-cyan-500/5" />
+              
+              <div className="relative z-10 p-4 text-center">
+                {/* Image skeleton */}
+                <div className="w-16 h-16 mx-auto mb-3 relative">
+                  <Skeleton className="w-full h-full rounded-lg bg-gradient-to-r from-gray-300 to-gray-200 dark:from-gray-600 dark:to-gray-700" />
                 </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {[...Array(3)].map((_, badgeIndex) => (
-                    <Skeleton 
-                      key={badgeIndex} 
-                      className="h-6 w-16 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/50 dark:to-indigo-900/50" 
-                    />
-                  ))}
-                </div>
-              </CardContent>
+                
+                {/* Skill name skeleton */}
+                <Skeleton className="h-4 w-20 mx-auto bg-gradient-to-r from-gray-300 to-gray-200 dark:from-gray-600 dark:to-gray-700" />
+              </div>
             </Card>
           ))}
         </div>

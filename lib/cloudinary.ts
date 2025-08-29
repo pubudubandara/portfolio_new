@@ -8,15 +8,15 @@ cloudinary.config({
 
 export { cloudinary };
 
-export const uploadToCloudinary = async (file: Buffer, filename: string) => {
-  return new Promise((resolve, reject) => {
+export const uploadToCloudinary = async (file: Buffer, filename: string, folder: string = 'portfolio/skills') => {
+  return new Promise<any>((resolve, reject) => {
     cloudinary.uploader.upload_stream(
       {
         resource_type: 'image',
         public_id: filename,
-        folder: 'portfolio/skills',
+        folder: folder,
         transformation: [
-          { width: 100, height: 100, crop: 'fit', quality: 'auto' }
+          { width: 400, height: 300, crop: 'fit', quality: 'auto' }
         ]
       },
       (error, result) => {

@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
-import { Plus, Edit, Trash2, Save, X, LogOut, Upload } from 'lucide-react'
+import { Plus, Edit, Trash2, Save, X, LogOut, Upload, Home } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 
 interface Skill {
@@ -25,10 +25,12 @@ interface Project {
   _id?: string;
   title: string;
   description: string;
+  imageUrl: string;
+  cloudinaryId: string;
   tech: string[];
-  contribution: string;
   github: string;
   demo: string;
+  order: number;
 }
 
 interface Contribution {
@@ -215,14 +217,24 @@ const AdminPanel = () => {
           <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 dark:from-white dark:via-blue-100 dark:to-white bg-clip-text text-transparent">
             Portfolio Admin Panel
           </h1>
-          <Button 
-            variant="outline" 
-            onClick={handleLogout}
-            className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm border-gray-200/80 dark:border-gray-700/50 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-300"
-          >
-            <LogOut className="w-4 h-4 mr-2" />
-            Logout
-          </Button>
+          <div className="flex gap-3">
+            <Button 
+              variant="outline" 
+              onClick={() => window.location.href = '/'}
+              className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm border-gray-200/80 dark:border-gray-700/50 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-300"
+            >
+              <Home className="w-4 h-4 mr-2" />
+              Home
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={handleLogout}
+              className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm border-gray-200/80 dark:border-gray-700/50 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-300"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
 
         <Tabs defaultValue="skills" className="space-y-6">
@@ -312,7 +324,7 @@ const AdminPanel = () => {
         {/* Project Edit/Add Modal */}
         {(editingProject || isAddingProject) && (
           <ProjectEditor
-            project={editingProject || { title: '', description: '', tech: [], contribution: '', github: '', demo: '' }}
+            project={editingProject || { title: '', description: '', imageUrl: '', cloudinaryId: '', tech: [], github: '', demo: '', order: 0 }}
             onSave={handleSaveProject}
             onCancel={() => {
               setEditingProject(null)
@@ -467,7 +479,6 @@ const ProjectCard = ({ project, onEdit, onDelete }: {
             </Badge>
           ))}
         </div>
-        <p className="text-sm text-gray-700 dark:text-gray-300">{project.contribution}</p>
       </CardContent>
     </div>
   </Card>
@@ -606,6 +617,38 @@ const ProjectEditor = ({ project, onSave, onCancel }: {
 }) => {
   const [editProject, setEditProject] = useState(project)
   const [newTech, setNewTech] = useState('')
+  const [uploading, setUploading] = useState(false)
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploading(true)
+    const formData = new FormData()
+    formData.append('file', file)
+
+    try {
+      const response = await fetch('/api/upload-project-image', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const data = await response.json()
+      if (data.success) {
+        setEditProject({
+          ...editProject,
+          imageUrl: data.data.imageUrl,
+          cloudinaryId: data.data.cloudinaryId
+        })
+      } else {
+        alert('Failed to upload image: ' + data.error)
+      }
+    } catch (error) {
+      alert('Failed to upload image')
+    } finally {
+      setUploading(false)
+    }
+  }
 
   const addTech = () => {
     if (newTech.trim()) {
@@ -646,13 +689,47 @@ const ProjectEditor = ({ project, onSave, onCancel }: {
             rows={3}
             className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-gray-200/80 dark:border-gray-700/50"
           />
-          <Textarea
-            placeholder="My Contribution (What did you specifically contribute to this project?)"
-            value={editProject.contribution}
-            onChange={(e) => setEditProject({ ...editProject, contribution: e.target.value })}
-            rows={2}
-            className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-gray-200/80 dark:border-gray-700/50"
-          />
+          
+          {/* Project Image Upload */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Project Image</label>
+            <div className="flex items-center space-x-4">
+              {editProject.imageUrl && (
+                <div className="w-20 h-20 relative">
+                  <Image
+                    src={editProject.imageUrl}
+                    alt="Project preview"
+                    fill
+                    className="object-cover rounded-lg"
+                    sizes="80px"
+                  />
+                </div>
+              )}
+              <div className="flex-1">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  disabled={uploading}
+                  className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-gray-200/80 dark:border-gray-700/50"
+                />
+                {uploading && <p className="text-sm text-blue-600 mt-1">Uploading...</p>}
+              </div>
+            </div>
+          </div>
+
+          {/* Order */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Display Order</label>
+            <Input
+              type="number"
+              placeholder="0"
+              value={editProject.order}
+              onChange={(e) => setEditProject({ ...editProject, order: parseInt(e.target.value) || 0 })}
+              className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-gray-200/80 dark:border-gray-700/50"
+            />
+          </div>
+
           <Input
             placeholder="GitHub URL"
             value={editProject.github}
@@ -700,6 +777,7 @@ const ProjectEditor = ({ project, onSave, onCancel }: {
           <div className="flex space-x-2">
             <Button 
               onClick={() => onSave(editProject)} 
+              disabled={!editProject.title || !editProject.description || !editProject.imageUrl || uploading}
               className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white transition-all duration-300"
             >
               <Save className="w-4 h-4 mr-2" />
