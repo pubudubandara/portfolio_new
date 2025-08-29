@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Download, Mail } from "lucide-react";
 import Image from "next/image";
-import { useGSAPTextAnimation } from "@/hooks/useGSAPTextAnimation";
-import { useEffect, useRef, useState } from "react";
+import { TypeAnimation } from 'react-type-animation';
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import AnimatedSection from "./AnimatedSection";
 
@@ -12,53 +12,15 @@ export const Hero = () => {
   const imageRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLHeadingElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
-  const [maxTextWidth, setMaxTextWidth] = useState(0);
-  const textContainerRef = useRef<HTMLDivElement>(null);
 
   const texts = [
-    "Undergraduate in Information Technology",
-    "University of Moratuwa",
+    "Undergraduate in Information Technology 🎓",
+    1500, // pause for 1.5 seconds
+    "University of Moratuwa 🏫",
+    1500,
     "Fullstack Developer 💻",
+    1500,
   ];
-
-  // Calculate the maximum width needed for the text container
-  useEffect(() => {
-    if (textContainerRef.current) {
-      // Create a temporary element to measure text widths
-      const tempElement = document.createElement("span");
-      tempElement.style.position = "absolute";
-      tempElement.style.visibility = "hidden";
-      tempElement.style.whiteSpace = "nowrap";
-      tempElement.style.fontSize = getComputedStyle(
-        textContainerRef.current
-      ).fontSize;
-      tempElement.style.fontFamily = getComputedStyle(
-        textContainerRef.current
-      ).fontFamily;
-      tempElement.style.fontWeight = getComputedStyle(
-        textContainerRef.current
-      ).fontWeight;
-
-      document.body.appendChild(tempElement);
-
-      let maxWidth = 0;
-      texts.forEach((text) => {
-        tempElement.textContent = text;
-        maxWidth = Math.max(maxWidth, tempElement.offsetWidth);
-      });
-
-      document.body.removeChild(tempElement);
-      setMaxTextWidth(maxWidth);
-    }
-  }, [texts]);
-
-  const textRef = useGSAPTextAnimation({
-    texts,
-    speed: 120,
-    delay: 1500,
-    repeat: true,
-    cursor: true,
-  });
 
   useEffect(() => {
     const timeline = gsap.timeline({ delay: 0.2 });
@@ -155,12 +117,18 @@ export const Hero = () => {
           Pubudu Bandara
         </h1>
 
-        {/* Text container with fixed width to prevent layout shifts */}
-        <div
-          ref={textContainerRef}
-          className="text-xl sm:text-2xl text-gray-700 dark:text-gray-300 mb-8 font-medium min-h-[2.5rem] mx-auto flex justify-center max-w-4xl px-4"
-        >
-          <span ref={textRef} className="text-center" />
+        {/* Text container with TypeAnimation */}
+        <div className="text-xl sm:text-2xl text-gray-700 dark:text-gray-300 mb-8 font-medium min-h-[2.5rem] mx-auto flex justify-center max-w-4xl px-4">
+          <TypeAnimation
+            sequence={texts}
+            wrapper="span"
+            speed={50}
+            deletionSpeed={80}
+            style={{ display: 'inline-block', textAlign: 'center' }}
+            repeat={Infinity}
+            cursor={true}
+            className="text-center"
+          />
         </div>
 
         <div
