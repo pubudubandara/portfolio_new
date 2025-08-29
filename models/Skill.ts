@@ -1,17 +1,22 @@
 import mongoose from 'mongoose';
 
 const SkillSchema = new mongoose.Schema({
-  category: {
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  imageUrl: {
     type: String,
     required: true,
   },
-  skills: [{
+  cloudinaryId: {
     type: String,
     required: true,
-  }],
-  icon: {
-    type: String,
-    default: 'Code',
+  },
+  order: {
+    type: Number,
+    default: 0,
   },
 }, {
   timestamps: true,

@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Skill from '@/models/Skill';
+import { deleteFromCloudinary } from '@/lib/cloudinary';
 
 export async function GET() {
   try {
     await connectDB();
-    const skills = await Skill.find({}).sort({ createdAt: 1 });
+    const skills = await Skill.find({}).sort({ order: 1, createdAt: 1 });
     return NextResponse.json({ success: true, data: skills });
   } catch (error) {
     return NextResponse.json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' }, { status: 500 });
@@ -49,14 +50,24 @@ export async function DELETE(request: NextRequest) {
     if (!id) {
       return NextResponse.json({ success: false, error: 'ID is required' }, { status: 400 });
     }
-    
-    const skill = await Skill.findByIdAndDelete(id);
+
+    const skill = await Skill.findById(id);
     if (!skill) {
       return NextResponse.json({ success: false, error: 'Skill not found' }, { status: 404 });
     }
-    
+
+    // Delete image from Cloudinary
+    if (skill.cloudinaryId) {
+      try {
+        await deleteFromCloudinary(skill.cloudinaryId);
+      } catch (error) {
+        console.error('Error deleting image from Cloudinary:', error);
+      }
+    }
+
+    await Skill.findByIdAndDelete(id);
     return NextResponse.json({ success: true, message: 'Skill deleted successfully' });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' }, { status: 400 });
+    return NextResponse.json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' }, { status: 500 });
   }
 }
