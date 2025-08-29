@@ -361,6 +361,9 @@ const SkillCard = ({ skill, onEdit, onDelete }: {
             <CardTitle className="text-lg group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-300">
               {skill.name}
             </CardTitle>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              Order: {skill.order}
+            </p>
           </div>
         </div>
         <div className="flex space-x-2">
@@ -420,9 +423,14 @@ const ProjectCard = ({ project, onEdit, onDelete }: {
     <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 via-purple-500/15 to-cyan-500/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
     <div className="relative z-10">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-lg group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-300">
-          {project.title}
-        </CardTitle>
+        <div>
+          <CardTitle className="text-lg group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-300">
+            {project.title}
+          </CardTitle>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            Order: {project.order}
+          </p>
+        </div>
         <div className="flex space-x-2">
           <Button 
             variant="outline" 

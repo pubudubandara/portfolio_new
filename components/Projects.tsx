@@ -165,7 +165,7 @@ export const Projects = () => {
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
                   </div>
 
-                  <CardHeader className="pb-4">
+                  <CardHeader className="pb-4 pt-4">
                     <CardTitle className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-300">
                       {project.title}
                     </CardTitle>

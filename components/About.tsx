@@ -127,7 +127,7 @@ export const About = () => {
                         variant="secondary"
                         className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/80 dark:to-indigo-900/80 text-blue-800 dark:text-blue-200 border-blue-300 dark:border-blue-700 hover:from-blue-200 hover:to-indigo-200 dark:hover:from-blue-800 dark:hover:to-indigo-800 transition-all duration-300 text-xs font-semibold px-3 py-1"
                       >
-                        Electronics
+                        Web Development
                       </Badge>
                       <Badge 
                         variant="secondary"
@@ -139,7 +139,7 @@ export const About = () => {
                         variant="secondary"
                         className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/80 dark:to-indigo-900/80 text-blue-800 dark:text-blue-200 border-blue-300 dark:border-blue-700 hover:from-blue-200 hover:to-indigo-200 dark:hover:from-blue-800 dark:hover:to-indigo-800 transition-all duration-300 text-xs font-semibold px-3 py-1"
                       >
-                        Travelling
+                        Electronics
                       </Badge>
                     </div>
                   </div>
