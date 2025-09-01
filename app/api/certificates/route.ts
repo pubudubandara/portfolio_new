@@ -16,11 +16,11 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    // Temporarily disable authentication for testing
-    // const user = await authenticateRequest(request);
-    // if (!user) {
-    //   return createAuthError();
-    // }
+    // Authenticate user
+    const user = await authenticateRequest(request);
+    if (!user) {
+      return createAuthError();
+    }
 
     await connectDB();
     const body = await request.json();
@@ -33,11 +33,11 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    // Temporarily disable authentication for testing
-    // const user = await authenticateRequest(request);
-    // if (!user) {
-    //   return createAuthError();
-    // }
+    // Authenticate user
+    const user = await authenticateRequest(request);
+    if (!user) {
+      return createAuthError();
+    }
 
     await connectDB();
     const body = await request.json();

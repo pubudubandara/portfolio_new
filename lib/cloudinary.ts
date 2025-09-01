@@ -30,35 +30,6 @@ export const uploadToCloudinary = async (file: Buffer, filename: string, folder:
   });
 };
 
-export const uploadCertificateToCloudinary = async (file: Buffer, filename: string) => {
-  return new Promise<any>((resolve, reject) => {
-    // Check if Cloudinary is configured
-    if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
-      reject(new Error('Cloudinary configuration is missing. Please check your environment variables.'));
-      return;
-    }
-
-    cloudinary.uploader.upload_stream(
-      {
-        resource_type: 'image',
-        public_id: filename,
-        folder: 'portfolio/certificates'
-        // No transformations - preserve original quality and size
-      },
-      (error, result) => {
-        if (error) {
-          console.error('Cloudinary upload error:', error);
-          reject(new Error(`Cloudinary upload failed: ${error.message || 'Unknown error'}`));
-        } else if (result) {
-          resolve(result);
-        } else {
-          reject(new Error('Cloudinary upload failed: No result returned'));
-        }
-      }
-    ).end(file);
-  });
-};
-
 export const deleteFromCloudinary = async (publicId: string) => {
   try {
     const result = await cloudinary.uploader.destroy(publicId);
