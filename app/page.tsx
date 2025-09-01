@@ -12,6 +12,7 @@ import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
 import { Skills } from "@/components/Skill";
 import {Projects} from "@/components/Projects";
+import {Certificates} from "@/components/Certificates";
 import {Contact} from "@/components/Contact";
 import {Footer} from "@/components/Footer";
 
@@ -26,10 +27,10 @@ export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
   // Use the custom scroll spy hook
-  const sections = ["hero", "about", "skills", "projects", "contact"];
+  const sections = ["hero", "about", "skills", "projects", "certificates", "contact"];
   const activeSection = useScrollSpy({ 
     sections,
-    offset: 200  // Offset from top when section becomes active
+    offset: 100  // Offset from top when section becomes active
   });
 
   // Initialize page animations
@@ -79,6 +80,7 @@ export default function Portfolio() {
           { id: "about", label: "About" },
           { id: "skills", label: "Skills" },
           { id: "projects", label: "Projects" },
+          { id: "certificates", label: "Certificates" },
           { id: "contact", label: "Contact" },
         ]}
       />
@@ -87,6 +89,7 @@ export default function Portfolio() {
       <About />
       <Skills />
       <Projects />
+      <Certificates />
       <Contact />
 
       <Footer />
