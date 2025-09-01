@@ -248,55 +248,57 @@ export const Certificates = () => {
           </div>
         )}
 
-        {/* Certificate Modal */}
-        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <DialogContent className="max-w-6xl w-[95vw] h-auto max-h-[95vh] p-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border border-gray-200/80 dark:border-gray-700/50">
-            {selectedCertificate && (
-              <>
-                <DialogHeader className="p-6 pb-4">
-                  <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 dark:from-white dark:via-blue-100 dark:to-white bg-clip-text text-transparent">
-                    {selectedCertificate.name}
-                  </DialogTitle>
-                  <DialogDescription className="text-lg text-gray-700 dark:text-gray-300">
-                    {selectedCertificate.organization}
-                  </DialogDescription>
-                </DialogHeader>
-                
-                <div className="px-6 pb-6">
-                  {/* Certificate Image */}
-                  <div className="relative w-full h-[70vh] rounded-lg overflow-hidden mb-4">
-                    <Image
-                      src={selectedCertificate.imageUrl}
-                      alt={selectedCertificate.name}
-                      fill
-                      className="object-contain"
-                      sizes="(max-width: 1536px) 100vw, 1536px"
-                    />
-                  </div>
-                  
-                  {/* Certificate Details */}
-                  <div className="flex items-center justify-between">
-                    <Badge
-                      variant="secondary"
-                      className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/80 dark:to-indigo-900/80 text-blue-800 dark:text-blue-200 border-blue-300 dark:border-blue-700 text-sm font-semibold px-4 py-2"
-                    >
-                      <Calendar className="w-4 h-4 mr-2" />
-                      {formatDate(selectedCertificate.date)}
-                    </Badge>
-                    
-                    <div className="flex items-center space-x-2">
-                      <Award className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
-                      <span className="text-sm text-gray-600 dark:text-gray-400 font-medium">
-                        Certificate
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </>
-            )}
-          </DialogContent>
-        </Dialog>
       </div>
+
+      {/* Certificate Modal */}
+        {isModalOpen && selectedCertificate && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+            <div className="relative max-w-[95vw] max-h-[95vh] w-full h-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm rounded-lg shadow-2xl overflow-hidden">
+              {/* Close Button */}
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center bg-black/20 hover:bg-black/40 rounded-full text-white transition-colors"
+              >
+                ✕
+              </button>
+
+              {/* Header */}
+              <div className="p-6 border-b border-gray-200/20 dark:border-gray-700/20">
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 dark:from-white dark:via-blue-100 dark:to-white bg-clip-text text-transparent">
+                  {selectedCertificate.name}
+                </h2>
+                <p className="text-lg text-gray-700 dark:text-gray-300 mt-2">
+                  {selectedCertificate.organization}
+                </p>
+              </div>
+
+              {/* Content */}
+              <div className="p-6 flex flex-col items-center justify-center h-full max-h-[calc(100%-120px)]">
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <Image
+                    src={selectedCertificate.imageUrl}
+                    alt={selectedCertificate.name}
+                    width={1000}
+                    height={700}
+                    className="object-contain max-w-full max-h-full w-auto h-auto"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 85vw"
+                  />
+                </div>
+
+                {/* Certificate Details */}
+                <div className="mt-4 flex items-center justify-center">
+                  <Badge
+                    variant="secondary"
+                    className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/80 dark:to-indigo-900/80 text-blue-800 dark:text-blue-200 border-blue-300 dark:border-blue-700 text-sm font-semibold px-4 py-2"
+                  >
+                    <Calendar className="w-4 h-4 mr-2" />
+                    {formatDate(selectedCertificate.date)}
+                  </Badge>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
     </section>
   )
 }

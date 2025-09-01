@@ -246,24 +246,38 @@ const CertificatesManager = () => {
 
       {/* Certificate Image Modal */}
       {selectedCertificateImage && (
-        <Dialog open={!!selectedCertificateImage} onOpenChange={() => setSelectedCertificateImage(null)}>
-          <DialogContent className="max-w-4xl max-h-[90vh] bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm">
-            <DialogHeader>
-              <DialogTitle className="text-xl font-bold bg-gradient-to-r from-gray-900 via-purple-900 to-gray-900 dark:from-white dark:via-purple-100 dark:to-white bg-clip-text text-transparent">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="relative max-w-[95vw] max-h-[95vh] w-full h-full bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-lg shadow-2xl overflow-hidden">
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedCertificateImage(null)}
+              className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center bg-black/20 hover:bg-black/40 rounded-full text-white transition-colors"
+            >
+              ✕
+            </button>
+
+            {/* Header */}
+            <div className="p-6 border-b border-gray-200/20 dark:border-gray-700/20">
+              <h2 className="text-xl font-bold bg-gradient-to-r from-gray-900 via-purple-900 to-gray-900 dark:from-white dark:via-purple-100 dark:to-white bg-clip-text text-transparent">
                 {selectedCertificateImage.name}
-              </DialogTitle>
-            </DialogHeader>
-            <div className="flex flex-col items-center space-y-4">
-              <div className="relative w-full max-w-3xl aspect-[4/3] rounded-lg overflow-hidden">
+              </h2>
+            </div>
+
+            {/* Content */}
+            <div className="p-6 flex flex-col items-center justify-center h-full max-h-[calc(100%-120px)]">
+              <div className="relative w-full h-full flex items-center justify-center">
                 <Image
                   src={selectedCertificateImage.imageUrl}
                   alt={selectedCertificateImage.name}
-                  fill
-                  className="object-contain"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+                  width={1000}
+                  height={700}
+                  className="object-contain max-w-full max-h-full w-auto h-auto"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
                 />
               </div>
-              <div className="text-center space-y-2">
+
+              {/* Certificate Details */}
+              <div className="mt-4 text-center space-y-2">
                 <p className="text-lg font-semibold text-gray-900 dark:text-white">
                   {selectedCertificateImage.name}
                 </p>
@@ -275,8 +289,8 @@ const CertificatesManager = () => {
                 </p>
               </div>
             </div>
-          </DialogContent>
-        </Dialog>
+          </div>
+        </div>
       )}
     </div>
   )
