@@ -38,8 +38,9 @@ const LoginPage = () => {
           description: "Login successful!",
         });
 
-        // Navigate directly to edit page
-        router.push("/edit");
+        // Use window.location.href to force a full page reload
+        // This ensures the middleware can properly handle the redirect with the new cookie
+        window.location.href = "/edit";
       } else {
         toast({
           title: "Error",
