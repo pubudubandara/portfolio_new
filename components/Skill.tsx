@@ -141,7 +141,7 @@ export const Skills = () => {
               {skills.map((skill) => (
                 <Card
                   key={skill._id}
-                  className="group relative overflow-hidden border border-gray-200/80 dark:border-gray-700/50 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.05] cursor-pointer w-32 shrink-0"
+                  className="group relative overflow-hidden border border-gray-200/80 dark:border-gray-700/50 bg-white/85 dark:bg-slate-800/85 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 hover:bg-white/95 dark:hover:bg-slate-800/95 transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.05] cursor-pointer w-32 shrink-0"
                   onMouseEnter={() => setHoveredCard(skill._id)}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
@@ -159,6 +159,7 @@ export const Skills = () => {
                         src={skill.imageUrl}
                         alt={skill.name}
                         fill
+                        loading="lazy"
                         className="object-contain rounded-lg"
                         sizes="(max-width: 768px) 64px, 64px"
                       />
