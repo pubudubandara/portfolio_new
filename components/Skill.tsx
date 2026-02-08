@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Card } from "@/components/ui/card";
+import { GlassCard } from "@/components/ui/glass-card";
 import Image from "next/image";
 import { SkillsSkeleton } from "@/components/skeletons/SkillsSkeleton";
 
@@ -139,9 +139,9 @@ export const Skills = () => {
               className="flex flex-wrap justify-center gap-6"
             >
               {skills.map((skill) => (
-                <Card
+                <GlassCard
                   key={skill._id}
-                  className="group relative overflow-hidden border border-gray-200/80 dark:border-gray-700/50 bg-white/85 dark:bg-slate-800/85 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 hover:bg-white/95 dark:hover:bg-slate-800/95 transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.05] cursor-pointer w-32 shrink-0"
+                  className="cursor-pointer w-32 shrink-0 hover:scale-[1.05]"
                   onMouseEnter={() => setHoveredCard(skill._id)}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
@@ -170,7 +170,7 @@ export const Skills = () => {
                       {skill.name}
                     </h3>
                   </div>
-                </Card>
+                </GlassCard>
               ))}
             </div>
           </div>

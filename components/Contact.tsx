@@ -4,12 +4,12 @@ import { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { GlassCard } from "@/components/ui/glass-card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -246,7 +246,7 @@ export const Contact = () => {
           {/* Contact Form Section */}
           <div ref={formRef} className="relative">
             {/* Form Card */}
-            <Card className="group relative overflow-hidden border border-gray-200/80 dark:border-gray-700/50 bg-white/85 dark:bg-slate-800/85 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 hover:bg-white/95 dark:hover:bg-slate-800/95 transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.02]">
+            <GlassCard>
               {/* Gradient border effect - now inside the card */}
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 via-purple-500/15 to-cyan-500/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
               <div className="relative z-10">
@@ -302,7 +302,7 @@ export const Contact = () => {
                   </form>
                 </CardContent>
               </div>
-            </Card>
+            </GlassCard>
           </div>
         </div>
       </div>
