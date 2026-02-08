@@ -61,8 +61,8 @@ export default function Portfolio() {
     "name": "Pubudu Bandara",
     "jobTitle": "Full Stack Developer",
     "description": "IT Undergraduate at University of Moratuwa specializing in web development",
-    "url": "https://pubudubandara.com",
-    "image": "https://pubudubandara.com/img.jpg",
+    "url": "https://www.pubududev.me/",
+    "image": "https://www.pubududev.me/img.jpg",
     "alumniOf": {
       "@type": "EducationalOrganization",
       "name": "University of Moratuwa"
@@ -70,8 +70,8 @@ export default function Portfolio() {
     "knowsAbout": ["Web Development", "React", "Next.js", "Full Stack Development", "JavaScript", "TypeScript"],
     "sameAs": [
       // Add your social media profiles here
-      // "https://linkedin.com/in/yourprofile",
-      // "https://github.com/yourprofile",
+      "https://github.com/pubudubandara",
+      "https://www.linkedin.com/in/pubudu-bandara",
       // "https://twitter.com/yourprofile"
     ]
   };
