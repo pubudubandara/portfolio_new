@@ -106,7 +106,7 @@ export const About = () => {
 
         {/* Right Card Section */}
         <div ref={cardRef} className="relative">
-        <Card className="group relative overflow-hidden border border-gray-200/80 dark:border-gray-700/50 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.02]">
+        <Card className="group relative overflow-hidden border border-gray-200/80 dark:border-gray-700/50 bg-white/85 dark:bg-slate-800/85 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 hover:bg-white/95 dark:hover:bg-slate-800/95 transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.02]">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 via-purple-500/15 to-cyan-500/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
           <div className="relative z-10">
           <CardHeader>
