@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { useTheme } from "next-themes";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
@@ -11,11 +11,20 @@ import ScrollSpyNavigation from "@/components/scroll-spy-navigation";
 import { Navigation } from "@/components/Navigation";
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
-import { Skills } from "@/components/Skill";
-import {Projects} from "@/components/Projects";
-import {Certificates} from "@/components/Certificates";
-import {Contact} from "@/components/Contact";
-import {Footer} from "@/components/Footer";
+
+// Lazy load components below the fold for better initial performance
+const Skills = lazy(() => import("@/components/Skill").then(m => ({ default: m.Skills })));
+const Projects = lazy(() => import("@/components/Projects").then(m => ({ default: m.Projects })));
+const Certificates = lazy(() => import("@/components/Certificates").then(m => ({ default: m.Certificates })));
+const Contact = lazy(() => import("@/components/Contact").then(m => ({ default: m.Contact })));
+const Footer = lazy(() => import("@/components/Footer").then(m => ({ default: m.Footer })));
+
+// Loading fallback component
+const SectionLoader = () => (
+  <div className="py-20 px-4 flex justify-center items-center">
+    <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
 
 // Register ScrollToPlugin
 if (typeof window !== "undefined") {
@@ -77,20 +86,17 @@ export default function Portfolio() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground relative">
+    <div className="min-h-screen text-foreground relative">
       {/* Structured Data for SEO */}
       <Script
         id="structured-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      {/* Fixed Background Layer */}
-      <div className="fixed inset-0 bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-100/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 overflow-hidden">
-        {/* Background decorative elements */}
+      
+      {/* Grid pattern overlay for additional texture */}
+      <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 bg-grid-slate-100 dark:bg-grid-slate-700/15 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.3))] dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.05),rgba(255,255,255,0.2))]" />
-        <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-br from-blue-400/10 to-purple-600/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-tr from-cyan-400/10 to-blue-600/10 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-purple-400/5 to-pink-400/5 rounded-full blur-3xl" />
       </div>
       
       {/* Content Layer */}
@@ -115,12 +121,27 @@ export default function Portfolio() {
       
       <Hero />
       <About />
-      <Skills />
-      <Projects />
-      <Certificates />
-      <Contact />
+      
+      {/* Lazy loaded sections - only render when needed */}
+      <Suspense fallback={<SectionLoader />}>
+        <Skills />
+      </Suspense>
+      
+      <Suspense fallback={<SectionLoader />}>
+        <Projects />
+      </Suspense>
+      
+      <Suspense fallback={<SectionLoader />}>
+        <Certificates />
+      </Suspense>
+      
+      <Suspense fallback={<SectionLoader />}>
+        <Contact />
+      </Suspense>
 
-      <Footer />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
       </div>
     </div>
   );

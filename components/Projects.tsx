@@ -5,12 +5,12 @@ import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import Image from 'next/image'
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { GlassCard } from '@/components/ui/glass-card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Github, ExternalLink, Code2 } from 'lucide-react'
@@ -138,9 +138,8 @@ export const Projects = () => {
         ) : (
           <div ref={projectsRef} className="grid md:grid-cols-2 gap-8">
             {projects.map((project, index) => (
-              <Card
+              <GlassCard
                 key={project._id}
-                className="group relative overflow-hidden border border-gray-200/80 dark:border-gray-700/50 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.02]"
                 onMouseEnter={() => setHoveredProject(project._id)}
                 onMouseLeave={() => setHoveredProject(null)}
               >
@@ -159,6 +158,7 @@ export const Projects = () => {
                       src={project.imageUrl}
                       alt={project.title}
                       fill
+                      loading="lazy"
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
@@ -230,7 +230,7 @@ export const Projects = () => {
                     </div>
                   </CardContent>
                 </div>
-              </Card>
+              </GlassCard>
               ))}
           </div>
         )}
