@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import Script from "next/script";
 import { usePageAnimations } from "@/hooks/usePageAnimations";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 import ScrollSpyNavigation from "@/components/scroll-spy-navigation";
@@ -54,8 +55,35 @@ export default function Portfolio() {
 
   if (!mounted) return null;
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Pubudu Bandara",
+    "jobTitle": "Full Stack Developer",
+    "description": "IT Undergraduate at University of Moratuwa specializing in web development",
+    "url": "https://pubudubandara.com",
+    "image": "https://pubudubandara.com/img.jpg",
+    "alumniOf": {
+      "@type": "EducationalOrganization",
+      "name": "University of Moratuwa"
+    },
+    "knowsAbout": ["Web Development", "React", "Next.js", "Full Stack Development", "JavaScript", "TypeScript"],
+    "sameAs": [
+      // Add your social media profiles here
+      // "https://linkedin.com/in/yourprofile",
+      // "https://github.com/yourprofile",
+      // "https://twitter.com/yourprofile"
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground relative">
+      {/* Structured Data for SEO */}
+      <Script
+        id="structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       {/* Fixed Background Layer */}
       <div className="fixed inset-0 bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-100/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 overflow-hidden">
         {/* Background decorative elements */}
