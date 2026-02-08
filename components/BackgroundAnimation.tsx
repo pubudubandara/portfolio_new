@@ -1,48 +1,57 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
+import {JSX} from "react";
 
 const BackgroundAnimation = () => {
-  // Generate random stars
-  const generateStars = (count: number) => {
-    const stars = [];
-    const moveAnimations = [
-      "animate-move-star-1",
-      "animate-move-star-2",
-      "animate-move-star-3",
-    ];
-    const delays = [
-      "",
-      "animation-delay-500",
-      "animation-delay-1000",
-      "animation-delay-1500",
-      "animation-delay-2000",
-      "animation-delay-2500",
-      "animation-delay-3000",
-      "animation-delay-3500",
-    ];
-    const sizes = ["w-0.5 h-0.5", "w-0.4 h-0.4", "w-0.3 h-0.3"];
+  const [stars, setStars] = useState<JSX.Element[]>([]);
 
-    for (let i = 0; i < count; i++) {
-      const top = Math.random() * 100;
-      const left = Math.random() * 100;
-      const moveAnimation =
-        moveAnimations[Math.floor(Math.random() * moveAnimations.length)];
-      const delay = delays[Math.floor(Math.random() * delays.length)];
-      const size = sizes[Math.floor(Math.random() * sizes.length)];
+  // Generate stars only on client side to avoid hydration mismatch
+  useEffect(() => {
+    const generateStars = (count: number) => {
+      const generatedStars = [];
+      const moveAnimations = [
+        "animate-move-star-1",
+        "animate-move-star-2",
+        "animate-move-star-3",
+      ];
+      const delays = [
+        "",
+        "animation-delay-500",
+        "animation-delay-1000",
+        "animation-delay-1500",
+        "animation-delay-2000",
+        "animation-delay-2500",
+        "animation-delay-3000",
+        "animation-delay-3500",
+      ];
+      const sizes = ["w-0.5 h-0.5", "w-0.4 h-0.4", "w-0.3 h-0.3"];
 
-      stars.push(
-        <div
-          key={i}
-          className={`absolute ${size} bg-white dark:bg-white rounded-full ${moveAnimation} ${delay} transition-all duration-300`}
-          style={{
-            top: `${top}%`,
-            left: `${left}%`,
-            opacity: Math.random() * 0.5 + 0.3,
-          }}
-        />,
-      );
-    }
-    return stars;
-  };
+      for (let i = 0; i < count; i++) {
+        const top = Math.random() * 100;
+        const left = Math.random() * 100;
+        const moveAnimation =
+          moveAnimations[Math.floor(Math.random() * moveAnimations.length)];
+        const delay = delays[Math.floor(Math.random() * delays.length)];
+        const size = sizes[Math.floor(Math.random() * sizes.length)];
+
+        generatedStars.push(
+          <div
+            key={i}
+            className={`absolute ${size} bg-white dark:bg-white rounded-full ${moveAnimation} ${delay} transition-all duration-300`}
+            style={{
+              top: `${top}%`,
+              left: `${left}%`,
+              opacity: Math.random() * 0.5 + 0.3,
+            }}
+          />,
+        );
+      }
+      return generatedStars;
+    };
+
+    setStars(generateStars(60));
+  }, []);
 
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden bg-slate-50 dark:bg-slate-950 star-container">
@@ -104,7 +113,7 @@ const BackgroundAnimation = () => {
                     animate-blob-reverse animation-delay-4000" />
 
     {/* Starry Sky Layer */}
-    <div className="absolute inset-0 z-[2]">{generateStars(100)}</div>
+    <div className="absolute inset-0 z-[2]">{stars}</div>
   </div>
 </div>
   );

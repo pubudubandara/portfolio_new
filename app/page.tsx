@@ -7,12 +7,12 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import Script from "next/script";
 import { usePageAnimations } from "@/hooks/usePageAnimations";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
-import ScrollSpyNavigation from "@/components/scroll-spy-navigation";
-import { Navigation } from "@/components/Navigation";
 import { Hero } from "@/components/Hero";
-import { About } from "@/components/About";
 
-// Lazy load components below the fold for better initial performance
+// Lazy load ALL components except Hero for maximum performance
+const Navigation = lazy(() => import("@/components/Navigation").then(m => ({ default: m.Navigation })));
+const ScrollSpyNavigation = lazy(() => import("@/components/scroll-spy-navigation"));
+const About = lazy(() => import("@/components/About").then(m => ({ default: m.About })));
 const Skills = lazy(() => import("@/components/Skill").then(m => ({ default: m.Skills })));
 const Projects = lazy(() => import("@/components/Projects").then(m => ({ default: m.Projects })));
 const Certificates = lazy(() => import("@/components/Certificates").then(m => ({ default: m.Certificates })));
@@ -24,6 +24,11 @@ const SectionLoader = () => (
   <div className="py-20 px-4 flex justify-center items-center">
     <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
   </div>
+);
+
+// Minimal navigation loader
+const NavLoader = () => (
+  <div className="fixed top-0 left-0 right-0 h-16 bg-background/80 backdrop-blur-sm z-50"></div>
 );
 
 // Register ScrollToPlugin
@@ -87,10 +92,11 @@ export default function Portfolio() {
 
   return (
     <div className="min-h-screen text-foreground relative">
-      {/* Structured Data for SEO */}
+      {/* Structured Data for SEO - deferred loading */}
       <Script
         id="structured-data"
         type="application/ld+json"
+        strategy="lazyOnload"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       
@@ -101,28 +107,34 @@ export default function Portfolio() {
       
       {/* Content Layer */}
       <div className="relative z-10">
-        <Navigation
-          activeSection={activeSection}
-          scrollToSection={scrollToSection}
-          isMenuOpen={isMenuOpen}
-          setIsMenuOpen={setIsMenuOpen}
-        />
+        <Suspense fallback={<NavLoader />}>
+          <Navigation
+            activeSection={activeSection}
+            scrollToSection={scrollToSection}
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+          />
+        </Suspense>
 
-      <ScrollSpyNavigation 
-        sections={[
-          { id: "hero", label: "Home" },
-          { id: "about", label: "About" },
-          { id: "skills", label: "Skills" },
-          { id: "projects", label: "Projects" },
-          { id: "certificates", label: "Certificates" },
-          { id: "contact", label: "Contact" },
-        ]}
-      />
+      <Suspense fallback={null}>
+        <ScrollSpyNavigation 
+          sections={[
+            { id: "hero", label: "Home" },
+            { id: "about", label: "About" },
+            { id: "skills", label: "Skills" },
+            { id: "projects", label: "Projects" },
+            { id: "certificates", label: "Certificates" },
+            { id: "contact", label: "Contact" },
+          ]}
+        />
+      </Suspense>
       
       <Hero />
-      <About />
       
-      {/* Lazy loaded sections - only render when needed */}
+      {/* Lazy loaded sections - load progressively as user scrolls */}
+      <Suspense fallback={<SectionLoader />}>
+        <About />
+      </Suspense>
       <Suspense fallback={<SectionLoader />}>
         <Skills />
       </Suspense>
