@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
+import BackgroundAnimation from "@/components/BackgroundAnimation"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -71,7 +72,12 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          {children}
+          <BackgroundAnimation />
+          
+          {/* Main content sits here with proper z-index */}
+          <main className="relative z-10">
+            {children}
+          </main>
           <Toaster />
         </ThemeProvider>
       </body>
