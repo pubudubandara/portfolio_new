@@ -88,6 +88,7 @@ export const Hero = () => {
     <section
       id="hero"
       className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative"
+      aria-label="Hero section - Introduction"
     >
       <div className="max-w-4xl mx-auto text-center relative z-10">
         <div className="mb-8 flex justify-center">
@@ -100,10 +101,11 @@ export const Hero = () => {
             {/* Image container with gradient border on hover */}
             <div className="relative w-[220px] h-[220px] rounded-full bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-cyan-500/30 p-1 transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-blue-500/30">
               <Image
-                src="/img.jpeg?height=200&width=200"
-                alt="Pubudu Bandara"
+                src="/img.jpg?height=200&width=200"
+                alt="Pubudu Bandara - Full Stack Developer and IT Undergraduate"
                 width={220}
                 height={220}
+                priority
                 className="rounded-full w-full h-full object-cover relative z-10 border-4 border-white/90 dark:border-slate-800/90"
               />
             </div>
@@ -118,7 +120,7 @@ export const Hero = () => {
         </h1>
 
         {/* Text container with TypeAnimation */}
-        <div className="text-xl sm:text-2xl text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 font-medium min-h-[4rem] sm:min-h-[2.5rem] mx-auto flex justify-center max-w-4xl px-4">
+        <p className="text-xl sm:text-2xl text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 font-medium min-h-[4rem] sm:min-h-[2.5rem] mx-auto flex justify-center max-w-4xl px-4">
           <TypeAnimation
             sequence={texts}
             wrapper="span"
@@ -128,8 +130,9 @@ export const Hero = () => {
             repeat={Infinity}
             cursor={true}
             className="text-center"
+            aria-label="Rotating text showing Pubudu's roles and affiliations"
           />
-        </div>
+        </p>
 
         {/* Buttons Section - Fixed position container */}
         <div className="w-full flex justify-center px-4 max-w-64 mx-auto">
