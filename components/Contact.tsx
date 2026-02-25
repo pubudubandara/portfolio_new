@@ -167,27 +167,30 @@ export const Contact = () => {
               </h3>
               <div className="space-y-4">
                 {/* Phone with icon */}
-                <div className="flex items-center p-5 rounded-lg bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-950/30 dark:to-indigo-950/30 border border-blue-200/50 dark:border-blue-800/30">
+                <a
+                  href="tel:0703143723"
+                  className="flex items-center p-5 rounded-lg bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-950/30 dark:to-indigo-950/30 border-2 border-blue-300 dark:border-blue-700 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-100/50 dark:hover:bg-blue-900/50 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                >
                   <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/50 mr-4">
                     <Phone className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                   </div>
                   <p className="text-gray-700 dark:text-gray-300 font-medium">
                     070 31 43 723
                   </p>
-                </div>
+                </a>
 
                 {/* Email with icon */}
-                <div className="flex items-center p-5 rounded-lg bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-950/30 dark:to-indigo-950/30 border border-blue-200/50 dark:border-blue-800/30">
+                <a
+                  href="mailto:pubudumb@gmail.com"
+                  className="flex items-center p-5 rounded-lg bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-950/30 dark:to-indigo-950/30 border-2 border-blue-300 dark:border-blue-700 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-100/50 dark:hover:bg-blue-900/50 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                >
                   <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/50 mr-4">
                     <Mail className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <a
-                    href="mailto:pubudumb@gmail.com"
-                    className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
-                  >
+                  <p className="text-gray-700 dark:text-gray-300 font-medium">
                     pubudumb@gmail.com
-                  </a>
-                </div>
+                  </p>
+                </a>
               </div>
             </div>
 
@@ -200,7 +203,7 @@ export const Contact = () => {
                 <Button
                   size="icon"
                   variant="outline"
-                  className="w-11 h-11 border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/70 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300"
+                  className="w-11 h-11 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-950/30 dark:to-indigo-950/30 border-2 border-blue-300 dark:border-blue-700 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-100/50 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 hover:shadow-lg transition-all duration-300"
                   asChild
                 >
                   <a
@@ -214,7 +217,7 @@ export const Contact = () => {
                 <Button
                   size="icon"
                   variant="outline"
-                  className="w-11 h-11 border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/70 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300"
+                  className="w-11 h-11 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-950/30 dark:to-indigo-950/30 border-2 border-blue-300 dark:border-blue-700 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-100/50 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 hover:shadow-lg transition-all duration-300"
                   asChild
                 >
                   <a
@@ -228,7 +231,7 @@ export const Contact = () => {
                 <Button
                   size="icon"
                   variant="outline"
-                  className="w-11 h-11 border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/70 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300"
+                  className="w-11 h-11 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-950/30 dark:to-indigo-950/30 border-2 border-blue-300 dark:border-blue-700 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-100/50 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 hover:shadow-lg transition-all duration-300"
                   asChild
                 >
                   <a
